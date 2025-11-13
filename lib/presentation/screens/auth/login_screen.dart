@@ -71,15 +71,34 @@ class _LoginScreenState extends State<LoginScreen> {
                                   borderRadius: BorderRadius.circular(16),
                                 ),
                               ),
-                            );
-                            print(state.message);
-                          } else if (state is CodeSentState) {
-                          //  Navigator.pushReplacementNamed(
-                          //     context,
-                          //     RouteString.otpScreen,
-                          //   );
-                          }
-                        },
+                              textAlign: TextAlign.center,
+                            ),
+                          ),
+                          SizedBox(width: 10),
+                          Expanded(
+                            child: SizedBox(
+                              height: 50,
+                              child: CustemTextFormFelid(
+                                controller: phoneNumber,
+                                keyboardType: TextInputType.number,
+                                hintText: 'Enter your phone number',
+                                labelText: 'Enter your phone number',
+                                prefixIcon: Icon(
+                                  Icons.phone,
+                                  color: Colors.grey,
+                                ),
+                                validator: (value) {
+                                  if (value == null || value.isEmpty) {
+                                    return 'Please Enter Your Phone Number';
+                                  } else if (value.length < 9) {
+                                    return 'Phone number too short';
+                                  }
+                                  return null;
+                                },
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
 
                       SizedBox(height: 30),
