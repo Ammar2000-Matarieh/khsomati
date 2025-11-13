@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "467496653740",
+    "project_id": "khsomati-6d331",
+    "storage_bucket": "khsomati-6d331.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:467496653740:android:7ccc2009eef4d93d46e009",
+        "android_client_info": {
+          "package_name": "com.khsomati.ama.khsomati"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCXCkG-zpl3A8C9xIms9c3ceYvFPHlRm1o"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
