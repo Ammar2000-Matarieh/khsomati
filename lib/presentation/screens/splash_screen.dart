@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:khsomati/constants/app_constant.dart';
+import 'package:khsomati/router/route_string.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -14,7 +15,7 @@ class _SplashScreenState extends State<SplashScreen> {
     super.initState();
 
     Future.delayed(Duration(seconds: 5), () {
-      Navigator.pushReplacementNamed(context, '/login');
+      Navigator.pushReplacementNamed(context, RouteString.login);
     });
   }
 
