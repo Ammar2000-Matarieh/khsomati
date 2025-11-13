@@ -105,6 +105,11 @@ class _LoginScreenState extends State<LoginScreen> {
                               ),
                             );
                             print(state.message);
+                          } else if (state is CodeSentState) {
+                          //  Navigator.pushReplacementNamed(
+                          //     context,
+                          //     RouteString.otpScreen,
+                          //   );
                           }
                         },
                       ),
