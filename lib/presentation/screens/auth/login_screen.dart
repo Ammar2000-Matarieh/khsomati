@@ -21,96 +21,142 @@ class _LoginScreenState extends State<LoginScreen> {
     double w = MediaQuery.sizeOf(context).width;
     return SafeArea(
       child: Scaffold(
-        backgroundColor: Colors.white,
         body: Form(
           key: _formKay,
-          child: Padding(
-            padding: const EdgeInsets.all(22.0),
-            child: SingleChildScrollView(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                // crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Align(
-                    alignment: Alignment.topLeft,
-                    child: Text(
-                      'Welcome To Khosomati Sales',
-                      style: TextStyle(
-                        fontSize: 26,
-                        fontWeight: FontWeight.bold,
+          child: SingleChildScrollView(
+            child: Padding(
+              padding: const EdgeInsets.all(22.0),
+              child: ConstrainedBox(
+                constraints: BoxConstraints(
+                  minHeight: MediaQuery.of(context).size.height,
+                ),
+                child: IntrinsicHeight(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      SizedBox(height: 100),
+                      Align(
+                        alignment: Alignment.topLeft,
+                        child: Text(
+                          'Welcome To Khosomati Sales',
+                          style: TextStyle(
+                            fontSize: 26,
+                            fontWeight: FontWeight.bold,
+                            color: Color(0xFF004445),
+                          ),
+                        ),
                       ),
-                    ),
-                  ),
-                  SizedBox(height: h * 0.02),
-                  Align(
-                    alignment: Alignment.topLeft,
-                    child: Text(
-                      'Enter Mobile Number',
-                      style: TextStyle(
-                        fontSize: 24,
-                        fontWeight: FontWeight.bold,
+                      SizedBox(height: 16),
+                      Align(
+                        alignment: Alignment.topLeft,
+                        child: Text(
+                          'Enter Mobile Number',
+                          style: TextStyle(
+                            fontSize: 24,
+                            fontWeight: FontWeight.bold,
+                            color: Color(0xFF004445),
+                          ),
+                        ),
                       ),
-                    ),
-                  ),
-                  SizedBox(height: h * 0.05),
-
-                  CustemTextFormFelid(
-                    controller: phoneNumber,
-                    keyboardType: TextInputType.number,
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Please Enter Your Phone Number';
-                      } else if (value.length < 9) {
-                        return 'Phone number too short';
-                      }
-                      return null;
-                    },
-                    hintText: 'Enter your phone number',
-                    prefixIcon: Icon(Icons.phone, color: Colors.grey),
-                  ),
-
-                  SizedBox(height: h * 0.05),
-                  SizedBox(
-                    height: 55,
-                    width: w,
-
-                    child: ElevatedButton(
-                      onPressed: () {
-                        if (_formKay.currentState!.validate()) {
-                          context.read<AuthCubit>().sendCode(
-                            phone: phoneNumber.text.trim(),
-                          );
-                        }
-                      },
-                      child: BlocConsumer<AuthCubit, AuthState>(
-                        builder: (context, state) {
-                          if (state is AuthLoading) {
-                            return CircularProgressIndicator();
-                          } else {
-                            return Text("Login");
-                          }
-                        },
-                        listener: (BuildContext context, AuthState state) {
-                          if (state is AuthLogedIn) {
-                            Navigator.pushReplacementNamed(
-                              context,
-                              RouteString.home,
-                            );
-                          } else if (state is AuthError) {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(
-                                content: Text(state.message),
-                                backgroundColor: Colors.red,
-                                behavior: SnackBarBehavior.floating,
+                      SizedBox(height: 20),
+                      Row(
+                        children: [
+                          Container(
+                            height: 50,
+                            width: 80,
+                            child: TextFormField(
+                              decoration: InputDecoration(
+                                hintText: '+962',
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(16),
+                                ),
                               ),
-                            );
-                            print(state.message);
-                          }
-                        },
+                              textAlign: TextAlign.center,
+                            ),
+                          ),
+                          SizedBox(width: 10),
+                          Expanded(
+                            child: SizedBox(
+                              height: 50,
+                              child: CustemTextFormFelid(
+                                controller: phoneNumber,
+                                keyboardType: TextInputType.number,
+                                hintText: 'Enter your phone number',
+                                labelText: 'Enter your phone number',
+                                prefixIcon: Icon(
+                                  Icons.phone,
+                                  color: Colors.grey,
+                                ),
+                                validator: (value) {
+                                  if (value == null || value.isEmpty) {
+                                    return 'Please Enter Your Phone Number';
+                                  } else if (value.length < 9) {
+                                    return 'Phone number too short';
+                                  }
+                                  return null;
+                                },
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
-                    ),
+
+                      SizedBox(height: 30),
+                      SizedBox(
+                        height: 55,
+                        width: double.infinity,
+                        child: ElevatedButton(
+                          onPressed: () {
+                            if (_formKay.currentState!.validate()) {
+                              context.read<AuthCubit>().sendCode(
+                                phone: phoneNumber.text.trim(),
+                              );
+                            }
+                          },
+                          style: ElevatedButton.styleFrom(
+                            foregroundColor: Colors.white,
+                            backgroundColor: Color(0xFF004445),
+                            textStyle: TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                            ),
+                            padding: EdgeInsets.symmetric(
+                              vertical: 16,
+                              horizontal: 24,
+                            ),
+                          ),
+                          child: BlocConsumer<AuthCubit, AuthState>(
+                            builder: (context, state) {
+                              if (state is AuthLoading) {
+                                return CircularProgressIndicator(
+                                  color: Colors.white,
+                                );
+                              } else {
+                                return Text("Login");
+                              }
+                            },
+                            listener: (context, state) {
+                              if (state is AuthLogedIn) {
+                                Navigator.pushReplacementNamed(
+                                  context,
+                                  RouteString.home,
+                                );
+                              } else if (state is AuthError) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                    content: Text(state.message),
+                                    backgroundColor: Colors.red,
+                                    behavior: SnackBarBehavior.floating,
+                                  ),
+                                );
+                              }
+                            },
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
-                ],
+                ),
               ),
             ),
           ),

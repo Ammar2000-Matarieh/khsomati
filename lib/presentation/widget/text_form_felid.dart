@@ -26,7 +26,7 @@ class CustemTextFormFelid extends StatelessWidget {
       keyboardType: keyboardType,
       validator: validator,
       decoration: InputDecoration(
-        hintText: hintText ?? "",
+        hintText: hintText,
         prefixIcon: prefixIcon,
         labelText: labelText ?? "",
         filled: true,
@@ -51,9 +51,3 @@ class CustemTextFormFelid extends StatelessWidget {
     );
   }
 }
-//  (value) {
-//         if (value == null || value.isEmpty) {
-//           return 'Please Enter Your Phone Number';
-//         }
-//         return null;
-//       },
