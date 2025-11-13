@@ -2,7 +2,6 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:khsomati/firebase_options.dart';
 import 'package:khsomati/router/route.dart';
-import 'package:khsomati/router/route_string.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
