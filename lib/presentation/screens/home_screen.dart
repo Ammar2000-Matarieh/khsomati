@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:khsomati/constants/app_colors.dart';
+import 'package:khsomati/presentation/widget/custom_drawer.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -17,7 +18,7 @@ class _HomeScreenState extends State<HomeScreen> {
       key: open,
       backgroundColor: AppColors.white,
 
-      drawer: Drawer(child: Center(child: Text("Drawer"))),
+      drawer: CustomDrawer(),
 
       appBar: AppBar(
         automaticallyImplyLeading: false,
@@ -34,7 +35,7 @@ class _HomeScreenState extends State<HomeScreen> {
             child: IconButton(
               onPressed: () => open.currentState!.openDrawer(),
               icon: Icon(Icons.menu),
-              color: Colors.white, // لازم يكون أبيض
+              color: Colors.white,
             ),
           ),
         ),
