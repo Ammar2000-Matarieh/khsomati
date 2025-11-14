@@ -8,6 +8,7 @@ part 'auth_state.dart';
 class AuthCubit extends Cubit<AuthState> {
   AuthCubit() : super(AuthInitial());
   final FirebaseAuth auth = FirebaseAuth.instance;
+  UserModel? userModel;
 
   Future sendCode({required String phone}) async {
     emit(AuthLoading());
@@ -17,11 +18,11 @@ class AuthCubit extends Cubit<AuthState> {
         timeout: const Duration(seconds: 60),
         verificationCompleted: (PhoneAuthCredential credential) async {
           final userCredential = await auth.signInWithCredential(credential);
-          final UserModel userModel = UserModel(
+          userModel = UserModel(
             id: userCredential.user?.uid,
             phone: userCredential.user?.phoneNumber,
           );
-          emit(AuthLogedIn(userModel));
+          emit(AuthLogedIn());
         },
         verificationFailed: (FirebaseAuthException error) {
           emit(AuthError("messege : $error"));
@@ -50,8 +51,10 @@ class AuthCubit extends Cubit<AuthState> {
       final UserModel userModel = UserModel(
         id: userCredential.user?.uid,
         phone: userCredential.user?.phoneNumber,
+        token: await userCredential.user!.getIdToken(),
       );
-      emit(AuthLogedIn(userModel));
+      
+      emit(AuthLogedIn());
     } catch (e) {
       emit(AuthError("message : $e"));
     }

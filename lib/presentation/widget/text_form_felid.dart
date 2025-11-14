@@ -9,7 +9,7 @@ class CustemTextFormFelid extends StatelessWidget {
   final String? Function(String?)? validator;
   final BorderRadius? borderRadius;
 
-  CustemTextFormFelid({
+  const CustemTextFormFelid({
     super.key,
     required this.controller,
     this.keyboardType,
@@ -22,7 +22,7 @@ class CustemTextFormFelid extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final GlobalKey<FormState> _formKay = GlobalKey<FormState>();
+    final GlobalKey<FormState> formKay = GlobalKey<FormState>();
     return TextFormField(
       controller: controller,
       keyboardType: keyboardType,

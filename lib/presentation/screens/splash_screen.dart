@@ -19,6 +19,7 @@ class _SplashScreenState extends State<SplashScreen>
   void initState() {
     super.initState();
 
+<<<<<<< HEAD
     _controller = AnimationController(
       vsync: this,
       duration: const Duration(milliseconds: 1500),
@@ -32,6 +33,10 @@ class _SplashScreenState extends State<SplashScreen>
       if (mounted) {
         Navigator.pushReplacementNamed(context, '/onBoarding');
       }
+=======
+    Future.delayed(Duration(seconds: 5), () {
+      Navigator.pushReplacementNamed(context, RouteString.login);
+>>>>>>> 3e5496cba8fdd0929f9d7f42a47dcb9e5d641475
     });
   }
 

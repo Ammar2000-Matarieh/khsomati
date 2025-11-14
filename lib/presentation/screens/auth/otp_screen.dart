@@ -1,16 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:khsomati/business_logic/cubit/cubit/auth_cubit.dart';
+import 'package:khsomati/constants/app_colors.dart';
+import 'package:khsomati/router/route_string.dart';
 import 'package:pinput/pinput.dart';
 
-class Otp extends StatefulWidget {
-  const Otp({super.key});
-
+class OtpScreen extends StatefulWidget {
+  const OtpScreen({super.key, required this.verificationId});
+  final String verificationId;
   @override
-  State<Otp> createState() => _OtpState();
+  State<OtpScreen> createState() => _OtpScreenState();
 }
 
-class _OtpState extends State<Otp> {
+class _OtpScreenState extends State<OtpScreen> {
   final pinController = TextEditingController();
   final focusNode = FocusNode();
+  
 
   @override
   Widget build(BuildContext context) {
@@ -38,7 +43,7 @@ class _OtpState extends State<Otp> {
 
                   Center(
                     child: Pinput(
-                      length: 5,
+                      length: 6,
                       controller: pinController,
                       focusNode: focusNode,
 
@@ -71,12 +76,36 @@ class _OtpState extends State<Otp> {
                     height: 55,
                     child: ElevatedButton(
                       onPressed: () {
-                        print("User Code: ${pinController.text}");
+                        context.read<AuthCubit>().verifyCode(
+                          verificationId: widget.verificationId,
+                          smsCode: pinController.text,
+                        );
                       },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.teal,
                       ),
-                      child: Text("aaaaaaaa"),
+                      child: BlocConsumer<AuthCubit, AuthState>(
+                        builder: (BuildContext context, AuthState state) {
+                          if (state is AuthLoading) {
+                            return CircularProgressIndicator(
+                              color: AppColors.white,
+                            );
+                          } else {
+                            return Text(
+                              "confirm code",
+                              style: TextStyle(color: AppColors.white),
+                            );
+                          }
+                        },
+                        listener: (BuildContext context, AuthState state) {
+                          if (state is AuthLogedIn) {
+                            Navigator.pushReplacementNamed(
+                              context,
+                              RouteString.home,
+                            );
+                          }
+                        },
+                      ),
                     ),
                   ),
                 ],

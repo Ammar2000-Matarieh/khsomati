@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:khsomati/business_logic/cubit/cubit/auth_cubit.dart';
 import 'package:khsomati/constants/app_colors.dart';
-import 'package:khsomati/constants/app_constant.dart';
-import 'package:khsomati/presentation/widget/text_form_felid.dart';
 import 'package:khsomati/router/route_string.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 
@@ -108,7 +106,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             builder: (context, state) {
                               if (state is AuthLoading) {
                                 return CircularProgressIndicator(
-                                  color: Colors.white,
+                                  color: AppColors.primary,
                                 );
                               } else {
                                 return Text(
@@ -118,10 +116,11 @@ class _LoginScreenState extends State<LoginScreen> {
                               }
                             },
                             listener: (context, state) {
-                              if (state is AuthLogedIn) {
+                              if (state is CodeSentState) {
                                 Navigator.pushReplacementNamed(
                                   context,
-                                  RouteString.home,
+                                  RouteString.otp,
+                                  arguments: state.verificationId,
                                 );
                               } else if (state is AuthError) {
                                 ScaffoldMessenger.of(context).showSnackBar(
