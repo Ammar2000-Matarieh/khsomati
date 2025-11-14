@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:khsomati/data/models/on_boarding_model.dart';
+import 'package:khsomati/router/route_string.dart';
 
 class OnBoardingScreen extends StatefulWidget {
   const OnBoardingScreen({super.key});
@@ -94,6 +95,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                         onPressed: () {
                           if (_currentPage == onBoardingData.length - 1) {
                             // الانتقال للشاشة الرئيسية
+                            Navigator.of(context).pushNamed(RouteString.login);
                           } else {
                             _pageController.nextPage(
                               duration: Duration(milliseconds: 500),
