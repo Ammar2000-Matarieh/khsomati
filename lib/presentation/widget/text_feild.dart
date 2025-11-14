@@ -90,6 +90,18 @@ class CustomTextFormField extends StatelessWidget {
         border: OutlineInputBorder(
           borderSide: BorderSide(color: AppColors.primary),
         ),
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(16),
+          borderSide: BorderSide(color: Colors.grey),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(16),
+          borderSide: BorderSide(color: Colors.grey),
+        ),
+        errorBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(16),
+          borderSide: BorderSide(color: Colors.red),
+        ),
         filled: filled,
         hintText: hintText,
         hintStyle: hintStyle,
