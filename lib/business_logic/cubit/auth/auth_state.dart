@@ -20,3 +20,4 @@ final class CodeSentState extends AuthState {
   final String verificationId;
   CodeSentState(this.verificationId);
 }
+final class AuthUserNotExists extends AuthState {}

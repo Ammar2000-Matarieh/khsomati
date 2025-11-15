@@ -1,9 +1,12 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:khsomati/business_logic/cubit/auth/auth_cubit.dart';
 import 'package:khsomati/constants/app_colors.dart';
 import 'package:khsomati/constants/app_size.dart';
 import 'package:khsomati/presentation/widget/text_feild.dart';
+import 'package:khsomati/router/route_string.dart';
 
 class PersonalDetails extends StatefulWidget {
   const PersonalDetails({super.key});
@@ -258,6 +261,65 @@ class _PersonalDetailsState extends State<PersonalDetails> {
               ),
 
               SizedBox(height: 20),
+              SizedBox(
+                height: 55,
+                width: AppSize.width * 0.6,
+                child: ElevatedButton(
+                  onPressed: () {
+                    context.read<AuthCubit>().createAccount(
+                      firstName: fisrtNameController.text,
+                      lastName: lastNameController.text,
+                      email: emailController.text,
+                      gender: _selectedGender ?? "",
+                      date: selectedDate.toString(),
+                    );
+                  },
+                  style: ElevatedButton.styleFrom(
+                    foregroundColor: Colors.white,
+                    backgroundColor: AppColors.primary,
+                    textStyle: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                    ),
+                    padding: EdgeInsets.symmetric(vertical: 16, horizontal: 24),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(22),
+                    ),
+                  ),
+                  child: BlocConsumer<AuthCubit, AuthState>(
+                    builder: (context, state) {
+                      if (state is AuthLoading) {
+                        return SizedBox(
+                          height: 24,
+                          width: 24,
+                          child: CircularProgressIndicator(
+                            color: Colors.white,
+                            strokeWidth: 2,
+                          ),
+                        );
+                      } else {
+                        return Text("Submit");
+                      }
+                    },
+                    listener: (context, state) {
+                      if (state is AuthLogedIn) {
+                        Navigator.pushReplacementNamed(
+                          context,
+                          RouteString.layout,
+                        );
+                      } else if (state is AuthError) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text(state.message),
+                            backgroundColor: Colors.red,
+                            behavior: SnackBarBehavior.floating,
+                          ),
+                        );
+                      }
+                    },
+                  ),
+                ),
+              ),
             ],
           ),
         ),

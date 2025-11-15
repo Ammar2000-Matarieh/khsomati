@@ -34,7 +34,7 @@ class _SplashScreenState extends State<SplashScreen>
 
     Future.delayed(const Duration(seconds: 5), () {
       if (mounted) {
-        Navigator.pushReplacementNamed(context, '/personaldetails');
+        Navigator.pushReplacementNamed(context, RouteString.onBoarding);
       }
     });
   }
