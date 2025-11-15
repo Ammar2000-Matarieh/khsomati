@@ -15,7 +15,6 @@ class OtpScreen extends StatefulWidget {
 class _OtpScreenState extends State<OtpScreen> {
   final pinController = TextEditingController();
   final focusNode = FocusNode();
-  
 
   @override
   Widget build(BuildContext context) {
@@ -101,7 +100,7 @@ class _OtpScreenState extends State<OtpScreen> {
                           if (state is AuthLogedIn) {
                             Navigator.pushReplacementNamed(
                               context,
-                              RouteString.home,
+                              RouteString.layout,
                             );
                           }
                         },

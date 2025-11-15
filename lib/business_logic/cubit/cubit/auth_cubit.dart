@@ -53,7 +53,7 @@ class AuthCubit extends Cubit<AuthState> {
         phone: userCredential.user?.phoneNumber,
         token: await userCredential.user!.getIdToken(),
       );
-      
+
       emit(AuthLogedIn());
     } catch (e) {
       emit(AuthError("message : $e"));
