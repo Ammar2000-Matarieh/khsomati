@@ -1,4 +1,4 @@
-import 'package:khsomati/constants/app_translation.dart';
+import 'package:khsomati/constants/translation/app_translation.dart';
 
 class En {
   static const trannslation = {

@@ -4,7 +4,7 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:khsomati/business_logic/cubit/localization/localization_cubit.dart';
 import 'package:khsomati/constants/app_colors.dart';
 import 'package:khsomati/constants/app_constant.dart';
-import 'package:khsomati/constants/app_translation.dart';
+import 'package:khsomati/constants/translation/app_translation.dart';
 import 'package:khsomati/router/route_string.dart';
 
 class SplashScreen extends StatefulWidget {
