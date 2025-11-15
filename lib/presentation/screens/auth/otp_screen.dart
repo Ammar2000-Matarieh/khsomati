@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:khsomati/business_logic/cubit/cubit/auth_cubit.dart';
+import 'package:khsomati/business_logic/cubit/auth/auth_cubit.dart';
 import 'package:khsomati/constants/app_colors.dart';
 import 'package:khsomati/router/route_string.dart';
 import 'package:pinput/pinput.dart';

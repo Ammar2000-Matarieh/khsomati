@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:khsomati/business_logic/cubit/localization/localization_cubit.dart';
+import 'package:khsomati/constants/app_translation.dart';
 import 'package:khsomati/data/models/on_boarding_model.dart';
 import 'package:khsomati/router/route_string.dart';
 
@@ -11,10 +14,12 @@ class OnBoardingScreen extends StatefulWidget {
 
 class _OnBoardingScreenState extends State<OnBoardingScreen> {
   final PageController _pageController = PageController();
+
   int _currentPage = 0;
 
   @override
   Widget build(BuildContext context) {
+    final t = context.read<LocalizationCubit>().translate;
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(
@@ -30,7 +35,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                     // الانتقال للشاشة الرئيسية
                   },
                   child: Text(
-                    'تخطي',
+                    t(AppTranslation.skip),
                     style: TextStyle(
                       color: Color(0xFF004445),
                       fontSize: 16,
@@ -113,7 +118,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                         child: Text(
                           _currentPage == onBoardingData.length - 1
                               ? 'ابدأ الآن'
-                              : 'التالي',
+                              : t(AppTranslation.next),
                           style: TextStyle(
                             color: Colors.white,
                             fontSize: 18,
@@ -140,6 +145,8 @@ class OnBoardingPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    bool isArabic =
+        context.read<LocalizationCubit>().state.locale.languageCode == 'ar';
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 24.0),
       child: Column(
@@ -160,7 +167,7 @@ class OnBoardingPage extends StatelessWidget {
 
           // Title
           Text(
-            model.title,
+            isArabic ? model.titleAr : model.titleEn,
             textAlign: TextAlign.center,
             style: TextStyle(
               fontSize: 28,
@@ -176,7 +183,7 @@ class OnBoardingPage extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16.0),
             child: Text(
-              model.desc,
+              isArabic ? model.descAr : model.descEn,
               textAlign: TextAlign.center,
               style: TextStyle(
                 fontSize: 16,

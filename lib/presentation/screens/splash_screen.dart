@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:khsomati/business_logic/cubit/localization/localization_cubit.dart';
 import 'package:khsomati/constants/app_colors.dart';
 import 'package:khsomati/constants/app_constant.dart';
+import 'package:khsomati/constants/app_translation.dart';
 import 'package:khsomati/router/route_string.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -86,6 +89,7 @@ class _SplashScreenState extends State<SplashScreen>
 
   @override
   Widget build(BuildContext context) {
+    final t = context.read<LocalizationCubit>().translate;
     return Scaffold(
       backgroundColor: Colors.white,
       body: Center(
@@ -104,8 +108,8 @@ class _SplashScreenState extends State<SplashScreen>
 
             SpinKitCircle(color: AppColors.primary),
             const SizedBox(height: 10),
-            const Text(
-              'مرحبا بكم ',
+             Text(
+              t(AppTranslation.welcome),
               style: TextStyle(fontSize: 16, color: Colors.grey),
             ),
           ],
