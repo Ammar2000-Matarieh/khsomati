@@ -26,14 +26,14 @@ class _HomeScreenState extends State<HomeScreen> {
         body: SingleChildScrollView(
           child: Form(
             key: _formKey,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Padding(
-                  padding: EdgeInsets.all(16),
-                  child: SizedBox(
-                    height: AppSize.height * 0.02,
-                    width: AppSize.width * 0.02,
+            child: Padding(
+              padding: const EdgeInsets.all(22),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  SizedBox(
+                    height: AppSize.height * 0.06,
+                    width: AppSize.width * 0.9,
                     child: CustomTextFormField(
                       controller: searchController,
                       validator: (value) {
@@ -44,38 +44,43 @@ class _HomeScreenState extends State<HomeScreen> {
                       hintText: 'Search',
                     ),
                   ),
-                ),
 
-                SizedBox(height: AppSize.height * 0.6),
-                Text(
-                  'Top Discounts',
-                  style: TextStyle(fontSize: 26, fontWeight: FontWeight.bold),
-                ),
-
-                SizedBox(height: AppSize.height * 0.6),
-
-                CarouselSlider.builder(
-                  carouselController: buttonCarouselController,
-                  itemCount: onBoardingData.length,
-                  itemBuilder: (context, index, realIndex) {
-                    return ClipRRect(
-                      borderRadius: BorderRadius.circular(12),
-                      child: Image.network(
-                        onBoardingData[index].image,
-                        fit: BoxFit.cover,
-                        width: double.infinity,
+                  SizedBox(height: AppSize.height * 0.03),
+                  Align(
+                    alignment: Alignment.topLeft,
+                    child: Text(
+                      'Top Discounts',
+                      style: TextStyle(
+                        fontSize: 26,
+                        fontWeight: FontWeight.bold,
                       ),
-                    );
-                  },
-                  options: CarouselOptions(
-                    height: 180,
-                    autoPlay: true,
-                    enlargeCenterPage: true,
-                    viewportFraction: 0.8,
-                    onPageChanged: (index, reason) {},
+                    ),
                   ),
-                ),
-              ],
+
+                  SizedBox(height: AppSize.height * 0.05),
+                  CarouselSlider.builder(
+                    carouselController: buttonCarouselController,
+                    itemCount: onBoardingData.length,
+                    itemBuilder: (context, index, realIndex) {
+                      return ClipRRect(
+                        borderRadius: BorderRadius.circular(12),
+                        child: Image.asset(
+                          onBoardingData[index].image,
+                          fit: BoxFit.cover,
+                          width: double.infinity,
+                        ),
+                      );
+                    },
+                    options: CarouselOptions(
+                      height: 180,
+                      autoPlay: true,
+                      enlargeCenterPage: true,
+                      viewportFraction: 0.9,
+                      onPageChanged: (index, reason) {},
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
         ),
