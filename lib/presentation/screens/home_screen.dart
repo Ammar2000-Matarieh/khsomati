@@ -1,16 +1,81 @@
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:khsomati/constants/app_size.dart';
+import 'package:khsomati/data/models/on_boarding_model.dart';
+import 'package:khsomati/presentation/widget/text_feild.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 
   @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  final TextEditingController searchController = TextEditingController();
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
+  CarouselSliderController buttonCarouselController =
+      CarouselSliderController();
+
+  @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.white,
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [Text("Home")],
+    return SafeArea(
+      child: Scaffold(
+        backgroundColor: Colors.white,
+        body: SingleChildScrollView(
+          child: Form(
+            key: _formKey,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Padding(
+                  padding: EdgeInsets.all(16),
+                  child: SizedBox(
+                    height: AppSize.height * 0.02,
+                    width: AppSize.width * 0.02,
+                    child: CustomTextFormField(
+                      controller: searchController,
+                      validator: (value) {},
+                      keyboardType: TextInputType.text,
+                      prefixIcon: Icon(Icons.search),
+                      hintText: 'Search',
+                    ),
+                  ),
+                ),
+
+                SizedBox(height: AppSize.height * 0.6),
+                Text(
+                  'Top Discounts',
+                  style: TextStyle(fontSize: 26, fontWeight: FontWeight.bold),
+                ),
+
+                SizedBox(height: AppSize.height * 0.6),
+
+                CarouselSlider.builder(
+                  carouselController: buttonCarouselController,
+                  itemCount: onBoardingData.length,
+                  itemBuilder: (context, index, realIndex) {
+                    return ClipRRect(
+                      borderRadius: BorderRadius.circular(12),
+                      child: Image.network(
+                        onBoardingData[index].image,
+                        fit: BoxFit.cover,
+                        width: double.infinity,
+                      ),
+                    );
+                  },
+                  options: CarouselOptions(
+                    height: 180,
+                    autoPlay: true,
+                    enlargeCenterPage: true,
+                    viewportFraction: 0.8,
+                    onPageChanged: (index, reason) {},
+                  ),
+                ),
+              ],
+            ),
+          ),
         ),
       ),
     );

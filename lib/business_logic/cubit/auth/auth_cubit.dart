@@ -11,6 +11,7 @@ class AuthCubit extends Cubit<AuthState> {
   final FirebaseAuth auth = FirebaseAuth.instance;
   UserModel? userModel;
 
+  // إرسال كود التحقق (OTP)
   Future sendCode({required String phone}) async {
     emit(AuthLoading());
     try {
