@@ -5,6 +5,7 @@ import 'package:khsomati/business_logic/cubit/localization/localization_cubit.da
 import 'package:khsomati/constants/app_colors.dart';
 import 'package:khsomati/constants/translation/app_translation.dart';
 import 'package:khsomati/router/route_string.dart';
+import 'package:lottie/lottie.dart';
 import 'package:pinput/pinput.dart';
 
 class OtpScreen extends StatefulWidget {
@@ -30,7 +31,8 @@ class _OtpScreenState extends State<OtpScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  SizedBox(height: 80),
+                  // SizedBox(height: 80),
+                  Lottie.asset("assets/lotties/OTP Verification.json"),
                   Text(
                     t(AppTranslation.weHaveSentAnOTPOnYourNumber),
                     textAlign: TextAlign.center,
@@ -84,6 +86,9 @@ class _OtpScreenState extends State<OtpScreen> {
                         );
                       },
                       style: ElevatedButton.styleFrom(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
                         backgroundColor: Colors.teal,
                       ),
                       child: BlocConsumer<AuthCubit, AuthState>(
@@ -107,7 +112,7 @@ class _OtpScreenState extends State<OtpScreen> {
                           if (state is AuthLogedIn) {
                             Navigator.pushReplacementNamed(
                               context,
-                              RouteString.home,
+                              RouteString.layout,
                             );
                           } else if (state is AuthUserNotExists) {
                             Navigator.pushReplacementNamed(

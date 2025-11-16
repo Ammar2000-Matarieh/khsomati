@@ -1,23 +1,6 @@
 import 'package:flutter/material.dart';
 
 class AppValidator {
-  static String? validatePromoCode(BuildContext context, String? value) {
-    if (value == null || value.isEmpty) {
-      return "Please enter a promo code";
-    }
-
-    if (value.length < 4 || value.length > 20) {
-      return "Promo code must be between 4 and 20 characters";
-    }
-
-    bool isValid = RegExp(r'^[A-Za-z0-9-]+$').hasMatch(value);
-    if (!isValid) {
-      return "Promo code should contain only letters, numbers and '-' ";
-    }
-
-    return null;
-  }
-
   // ================== Auth Validate ==================
   static String? validateName(BuildContext context, String? value) {
     if (value == null || value.isEmpty) {

@@ -1,3 +1,4 @@
+import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -29,10 +30,9 @@ class CustomComponentsDrawer extends StatelessWidget {
     final t = context.read<LocalizationCubit>().translate;
     return Column(
       children: [
-        // حافظنا على مسافة كبيرة في الأعلى
         SizedBox(height: AppSize.height * 0.06),
         const DrawerHeaderWidget(),
-        // مسافة مناسبة بعد الهيدر
+
         SizedBox(height: AppSize.height * 0.03),
 
         const Divider(color: Colors.grey),
@@ -100,10 +100,7 @@ class CustomComponentsDrawer extends StatelessWidget {
                 text: t(AppTranslation.logOut),
                 leading: Icons.logout,
                 onTap: () {
-                  // showCupertinoDialog(
-                  //   context: context,
-                  //   builder: (context) => CustomLogoutWidget(),
-                  // );
+                  _showLogoutDialog(context, t);
                 },
               ),
             ],
@@ -114,106 +111,26 @@ class CustomComponentsDrawer extends StatelessWidget {
       ],
     );
   }
+
+  void _showLogoutDialog(BuildContext context, Function(String) t) {
+    // الكود الخاص بالـ AwesomeDialog الذي وضعناه في الخطوة الأولى
+    AwesomeDialog(
+      context: context,
+      dialogType: DialogType.warning,
+      animType: AnimType.scale,
+      title: t(AppTranslation.logOut) ?? 'تسجيل الخروج',
+      desc: t(AppTranslation.logOut) ?? 'هل أنت متأكد أنك تريد تسجيل الخروج؟',
+      btnCancelText: t(AppTranslation.logOut) ?? 'إلغاء',
+      btnCancelColor: Colors.grey,
+      btnCancelOnPress: () {},
+      btnOkText: t(AppTranslation.logOut) ?? 'خروج',
+      btnOkColor: Colors.red,
+      btnOkOnPress: () {
+        // منطق تسجيل الخروج
+      },
+    ).show();
+  }
 }
-
-// class CustomComponentsDrawer extends StatelessWidget {
-//   const CustomComponentsDrawer({super.key});
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Column(
-//       children: [
-//         SizedBox(height: AppSize.height * 0.06),
-//         const DrawerHeaderWidget(),
-//         SizedBox(height: AppSize.height * 0.03),
-
-//         const Divider(color: Colors.grey),
-//         Padding(
-//           padding: EdgeInsets.all(10),
-//           child: Column(
-//             children: [
-//               ListTileWidget(
-//                 text: "Profile",
-//                 leading: Icons.person_outline,
-//                 onTap: () {},
-//               ),
-//               // SizedBox(height: 2),
-//               SizedBox(height: AppSize.height * 0.03),
-//               ListTileWidget(
-//                 leading: Icons.language,
-//                 title: Row(
-//                   children: [
-//                     Text(
-//                       "اللغات",
-//                       style: Theme.of(context).textTheme.titleLarge,
-//                     ),
-//                     const Spacer(),
-//                     Text(
-//                       "English",
-//                       // currentLangCode == 'ar' ? '( Arabic )' : '( English )',
-//                     ),
-//                   ],
-//                 ),
-//                 onTap: () {},
-//                 // onTap: () => showCupertinoModalPopup(
-//                 //   context: context,
-//                 //   builder: (ctx) => CustomPopUpChangeLanguage(),
-//                 // ),
-//               ),
-
-//               // SizedBox(height: 2),
-//               // SizedBox(height: AppSize.height * 0.01),
-//               SizedBox(height: AppSize.height * 0.03),
-
-//               ListTileWidget(
-//                 text: "Support",
-//                 leading: CupertinoIcons.question_circle,
-//                 onTap: () {},
-//               ),
-//               // SizedBox(height: 2),
-//               SizedBox(height: AppSize.height * 0.01),
-//               ListTileWidget(
-//                 text: "Notifications",
-//                 leading: CupertinoIcons.bell,
-//                 onTap: () {},
-//               ),
-//               // SizedBox(height: 2),
-//               SizedBox(height: AppSize.height * 0.01),
-
-//               ListTileWidget(
-//                 text: "Privacy & Polices",
-//                 leading: Icons.privacy_tip_outlined,
-//                 onTap: () {},
-//               ),
-//               // SizedBox(height: 2),
-//               SizedBox(height: AppSize.height * 0.01),
-//               ListTileWidget(
-//                 text: "About The App",
-//                 leading: Icons.app_settings_alt,
-//                 onTap: () {},
-//               ),
-//               // SizedBox(height: 2),
-//               SizedBox(height: AppSize.height * 0.01),
-//               ListTileWidget(
-//                 isLogout: true,
-//                 text: "Log Out",
-//                 leading: Icons.logout,
-//                 onTap: () {
-//                   // showCupertinoDialog(
-//                   //   context: context,
-//                   //   builder: (context) => CustomLogoutWidget(),
-//                   // );
-//                 },
-//               ),
-//             ],
-//           ),
-//         ),
-//         // SizedBox(height: 2),
-//         SizedBox(height: AppSize.height * 0.01),
-//       ],
-//     );
-//   }
-// }
 
 class DrawerHeaderWidget extends StatelessWidget {
   const DrawerHeaderWidget({super.key});
@@ -262,7 +179,7 @@ class ListTileWidget extends StatelessWidget {
     return ListTile(
       onTap: onTap,
       shape: RoundedRectangleBorder(
-        side: BorderSide(color: AppColors.primary, width: 1),
+        // side: BorderSide(color: AppColors.primary, width: 1),
         borderRadius: BorderRadius.circular(5),
       ),
       leading: Icon(leading, color: isLogout ? Colors.red : AppColors.primary),

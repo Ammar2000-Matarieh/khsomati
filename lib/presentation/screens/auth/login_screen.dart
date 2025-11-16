@@ -7,6 +7,7 @@ import 'package:khsomati/constants/app_size.dart';
 import 'package:khsomati/constants/translation/app_translation.dart';
 import 'package:khsomati/presentation/widget/custom_phone.dart';
 import 'package:khsomati/router/route_string.dart';
+import 'package:lottie/lottie.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -32,7 +33,6 @@ class _LoginScreenState extends State<LoginScreen> {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                SizedBox(height: 100),
                 Padding(
                   padding: EdgeInsets.all(16),
                   child: Text(
@@ -62,68 +62,74 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                   ),
                 ),
+                SizedBox(height: AppSize.height * 0.07),
+                Lottie.asset("assets/lotties/Login (1).json"),
 
+                // SizedBox(height: 100),
                 CustomPhoneTextField(controller: phoneEditingController),
 
                 Center(
-                  child: SizedBox(
-                    height: 60,
-                    width: AppSize.width * 0.6,
-                    child: ElevatedButton(
-                      onPressed: () {
-                        if (_formKay.currentState!.validate()) {
-                          context.read<AuthCubit>().sendCode(
-                            phone: phoneEditingController.text.trim(),
-                          );
-                        }
-                      },
-                      style: ElevatedButton.styleFrom(
-                        foregroundColor: Colors.white,
-                        backgroundColor: AppColors.primary,
-                        textStyle: TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                        ),
-                        padding: EdgeInsets.symmetric(
-                          vertical: 16,
-                          horizontal: 24,
-                        ),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(22),
-                        ),
-                      ),
-                      child: BlocConsumer<AuthCubit, AuthState>(
-                        builder: (context, state) {
-                          if (state is AuthLoading) {
-                            return SizedBox(
-                              height: 24,
-                              width: 24,
-                              child: CircularProgressIndicator(
-                                color: Colors.white,
-                                strokeWidth: 2,
-                              ),
-                            );
-                          } else {
-                            return Text(t(AppTranslation.login));
-                          }
-                        },
-                        listener: (context, state) {
-                          if (state is CodeSentState) {
-                            Navigator.pushReplacementNamed(
-                              context,
-                              RouteString.otp,
-                              arguments: state.verificationId,
-                            );
-                          } else if (state is AuthError) {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(
-                                content: Text(state.message),
-                                backgroundColor: Colors.red,
-                                behavior: SnackBarBehavior.floating,
-                              ),
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 20, right: 20),
+                    child: SizedBox(
+                      height: 55,
+                      width: AppSize.width,
+                      child: ElevatedButton(
+                        onPressed: () async {
+                          if (_formKay.currentState!.validate()) {
+                            await context.read<AuthCubit>().sendCode(
+                              phone: phoneEditingController.text.trim(),
                             );
                           }
                         },
+                        style: ElevatedButton.styleFrom(
+                          foregroundColor: Colors.white,
+                          backgroundColor: AppColors.primary,
+                          textStyle: TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                          ),
+                          padding: EdgeInsets.symmetric(
+                            vertical: 16,
+                            horizontal: 24,
+                          ),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                        ),
+                        child: BlocConsumer<AuthCubit, AuthState>(
+                          builder: (context, state) {
+                            if (state is AuthLoading) {
+                              return SizedBox(
+                                height: 24,
+                                width: 24,
+                                child: CircularProgressIndicator(
+                                  color: Colors.white,
+                                  strokeWidth: 2,
+                                ),
+                              );
+                            } else {
+                              return Text(t(AppTranslation.login));
+                            }
+                          },
+                          listener: (context, state) {
+                            if (state is CodeSentState) {
+                              Navigator.pushReplacementNamed(
+                                context,
+                                RouteString.otp,
+                                arguments: state.verificationId,
+                              );
+                            } else if (state is AuthError) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content: Text(state.message),
+                                  backgroundColor: Colors.red,
+                                  behavior: SnackBarBehavior.floating,
+                                ),
+                              );
+                            }
+                          },
+                        ),
                       ),
                     ),
                   ),
