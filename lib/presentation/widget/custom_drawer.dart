@@ -17,15 +17,15 @@ class CustomPopUpChangeLanguage extends StatelessWidget {
       actions: [
         CupertinoActionSheetAction(
           onPressed: () {
-            // context.read<LocaleCubit>().toArabic();
-            // back();
+            final cubit = context.read<LocalizationCubit>();
+            cubit.loadLanguage('ar');
           },
           child: Text("Arabic"),
         ),
         CupertinoActionSheetAction(
           onPressed: () {
-            // context.read<LocaleCubit>().toEnglish();
-            // back();
+            final cubit = context.read<LocalizationCubit>();
+            cubit.loadLanguage('en');
           },
           child: Text("English"),
         ),
