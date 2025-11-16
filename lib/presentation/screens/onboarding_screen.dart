@@ -117,7 +117,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                         ),
                         child: Text(
                           _currentPage == onBoardingData.length - 1
-                              ? 'ابدأ الآن'
+                              ? t(AppTranslation.startNow)
                               : t(AppTranslation.next),
                           style: TextStyle(
                             color: Colors.white,

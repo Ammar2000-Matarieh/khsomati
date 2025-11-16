@@ -107,7 +107,7 @@ class _OtpScreenState extends State<OtpScreen> {
                           if (state is AuthLogedIn) {
                             Navigator.pushReplacementNamed(
                               context,
-                              RouteString.home,
+                              RouteString.layout,
                             );
                           } else if (state is AuthUserNotExists) {
                             Navigator.pushReplacementNamed(
