@@ -29,8 +29,18 @@ class _OtpScreenState extends State<OtpScreen> {
             child: Padding(
               padding: const EdgeInsets.all(22),
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                // mainAxisAlignment: MainAxisAlignment.start,
                 children: [
+                  SizedBox(height: 10),
+                  Text(
+                    "Verification Code",
+                    style: TextStyle(
+                      color: AppColors.primary,
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
                   // SizedBox(height: 80),
                   Lottie.asset("assets/lotties/OTP Verification.json"),
                   Text(
@@ -80,10 +90,11 @@ class _OtpScreenState extends State<OtpScreen> {
                     height: 55,
                     child: ElevatedButton(
                       onPressed: () {
-                        context.read<AuthCubit>().verifyCode(
-                          verificationId: widget.verificationId,
-                          smsCode: pinController.text,
-                        );
+                        // if()
+                        //context.read<AuthCubit>().verifyCode(
+                        //   verificationId: widget.verificationId,
+                        //   smsCode: pinController.text,
+                        // );
                       },
                       style: ElevatedButton.styleFrom(
                         shape: RoundedRectangleBorder(

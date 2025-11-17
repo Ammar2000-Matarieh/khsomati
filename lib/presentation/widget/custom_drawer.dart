@@ -7,6 +7,7 @@ import 'package:khsomati/constants/app_colors.dart';
 import 'package:khsomati/constants/app_constant.dart';
 import 'package:khsomati/constants/app_size.dart';
 import 'package:khsomati/constants/translation/app_translation.dart';
+import 'package:khsomati/router/route_string.dart';
 
 class CustomPopUpChangeLanguage extends StatelessWidget {
   const CustomPopUpChangeLanguage({super.key});
@@ -99,6 +100,13 @@ class CustomComponentsDrawer extends StatelessWidget {
               ),
 
               SizedBox(height: 10),
+              ListTileWidget(
+                text: t(AppTranslation.addProducts),
+                leading: CupertinoIcons.add_circled,
+                onTap: () => Navigator.of(
+                  context,
+                ).pushNamed(RouteString.addProductsRoute),
+              ),
 
               ListTileWidget(
                 text: t(AppTranslation.support),

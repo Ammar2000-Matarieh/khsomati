@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:khsomati/presentation/screens/add_products_screen.dart';
 import 'package:khsomati/presentation/screens/auth/login_screen.dart';
 import 'package:khsomati/presentation/screens/auth/otp_screen.dart';
 import 'package:khsomati/presentation/screens/home_screen.dart';
@@ -21,4 +22,5 @@ Map<String, Widget Function(BuildContext)> routes = <String, WidgetBuilder>{
   RouteString.home: (context) => HomeScreen(),
   RouteString.personaldetails: (context) => PersonalDetails(),
   RouteString.layout: (context) => LayoutScreen(),
+  RouteString.addProductsRoute: (context) => AddProductsScreen(),
 };
