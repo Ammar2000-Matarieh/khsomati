@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class AddProductsScreen extends StatefulWidget {
@@ -30,7 +31,13 @@ class _AddProductsScreenState extends State<AddProductsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("Add Product")),
+      appBar: AppBar(
+        title: const Text("Add Product"),
+        leading: IconButton(
+          onPressed: () => Navigator.pop(context),
+          icon: Icon(CupertinoIcons.back),
+        ),
+      ),
       body: Padding(
         padding: const EdgeInsets.all(16),
         child: storesList.isEmpty
@@ -81,7 +88,7 @@ class _AddProductsScreenState extends State<AddProductsScreen> {
 
         // Dropdown اختيار المحل
         DropdownButtonFormField<String>(
-          value: selectedStore,
+          initialValue: selectedStore,
           items: storesList
               .map((s) => DropdownMenuItem(value: s, child: Text(s)))
               .toList(),

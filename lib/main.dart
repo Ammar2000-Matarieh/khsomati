@@ -6,6 +6,7 @@ import 'package:khsomati/business_logic/cubit/auth/auth_cubit.dart';
 import 'package:khsomati/business_logic/cubit/localization/localization_cubit.dart';
 import 'package:khsomati/business_logic/cubit/localization/localization_state.dart';
 import 'package:khsomati/business_logic/cubit/layout/layout_cubit.dart';
+import 'package:khsomati/constants/app_colors.dart';
 import 'package:khsomati/constants/app_size.dart';
 import 'package:khsomati/firebase_options.dart';
 import 'package:khsomati/router/route.dart';
@@ -37,6 +38,7 @@ class Khosomati extends StatelessWidget {
     return BlocBuilder<LocalizationCubit, LocalizationState>(
       builder: (BuildContext context, LocalizationState state) {
         return MaterialApp(
+          theme: ThemeData(scaffoldBackgroundColor: AppColors.white),
           locale: state.locale,
           supportedLocales: [Locale('en'), Locale('ar')],
           localizationsDelegates: const [
