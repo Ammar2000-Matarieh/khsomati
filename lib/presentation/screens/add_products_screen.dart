@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:khsomati/presentation/screens/create_store_screen.dart';
 
 class AddProductsScreen extends StatefulWidget {
   const AddProductsScreen({super.key});
@@ -186,7 +187,9 @@ class customButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {},
+      onTap: () => Navigator.of(
+        context,
+      ).push(MaterialPageRoute(builder: (context) => CreateStoreScreen())),
       child: Container(
         width: 100,
         height: 100,
