@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:khsomati/presentation/screens/create_store_screen.dart';
 
@@ -10,6 +9,7 @@ class AddProductsScreen extends StatefulWidget {
 }
 
 class _AddProductsScreenState extends State<AddProductsScreen> {
+  final _formKey = GlobalKey<FormState>();
   final List stores = ["Zara", "Nike", "Adidas", "H&M", "Pull&Bear", "Bershka"];
   String? selectedStore; // المتجر المختار
 
@@ -70,6 +70,7 @@ class _AddProductsScreenState extends State<AddProductsScreen> {
             const SizedBox(height: 20),
 
             /// ------------------- Product Form -------------------
+            ///
             AnimatedSwitcher(
               duration: const Duration(milliseconds: 300),
               child: selectedStore == null
@@ -90,66 +91,175 @@ class _AddProductsScreenState extends State<AddProductsScreen> {
                             ),
                           ],
                         ),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              "Selected store: $selectedStore",
-                              style: const TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 16,
-                                color: Colors.deepPurple,
-                              ),
-                            ),
-                            const SizedBox(height: 20),
-
-                            _inputField(productName, "Product Name"),
-                            const SizedBox(height: 12),
-
-                            _inputField(
-                              productPrice,
-                              "Price",
-                              type: TextInputType.number,
-                            ),
-                            const SizedBox(height: 12),
-
-                            _inputField(
-                              productDesc,
-                              "Description",
-                              maxLines: 3,
-                            ),
-                            const SizedBox(height: 20),
-
-                            /// Save Button
-                            SizedBox(
-                              width: double.infinity,
-                              child: ElevatedButton(
-                                style: ElevatedButton.styleFrom(
-                                  padding: const EdgeInsets.symmetric(
-                                    vertical: 14,
-                                  ),
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(15),
-                                  ),
-                                  backgroundColor: Colors.deepPurple,
+                        child: Form(
+                          key: _formKey,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                "Selected store: $selectedStore",
+                                style: const TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 16,
+                                  color: Colors.deepPurple,
                                 ),
-                                onPressed: () {
-                                  // حفظ المنتج
+                              ),
+                              const SizedBox(height: 20),
+
+                              _inputField(
+                                productName,
+                                "Product Name",
+                                validator: (value) {
+                                  if (value == null || value.trim().isEmpty) {
+                                    return "Product name is required";
+                                  }
+                                  return null;
                                 },
-                                child: const Text(
-                                  "Save Product",
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 16,
+                              ),
+                              const SizedBox(height: 12),
+
+                              _inputField(
+                                productPrice,
+                                "Price",
+                                type: TextInputType.number,
+                                validator: (value) {
+                                  if (value == null || value.trim().isEmpty) {
+                                    return "Price is required";
+                                  }
+                                  if (double.tryParse(value) == null) {
+                                    return "Price must be a valid number";
+                                  }
+                                  return null;
+                                },
+                              ),
+                              const SizedBox(height: 12),
+
+                              _inputField(
+                                productDesc,
+                                "Description",
+                                maxLines: 3,
+                                validator: (value) {
+                                  if (value == null || value.trim().isEmpty) {
+                                    return "Description is required";
+                                  }
+                                  return null;
+                                },
+                              ),
+                              const SizedBox(height: 20),
+
+                              SizedBox(
+                                width: double.infinity,
+                                child: ElevatedButton(
+                                  style: ElevatedButton.styleFrom(
+                                    padding: const EdgeInsets.symmetric(
+                                      vertical: 14,
+                                    ),
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(15),
+                                    ),
+                                    backgroundColor: Colors.deepPurple,
+                                  ),
+                                  onPressed: () {
+                                    if (_formKey.currentState!.validate()) {
+                                      // إذا كلشي صح
+                                      print("Saving product...");
+                                    }
+                                  },
+                                  child: const Text(
+                                    "Save Product",
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 16,
+                                    ),
                                   ),
                                 ),
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
                       ),
                     ),
             ),
+            // AnimatedSwitcher(
+            //   duration: const Duration(milliseconds: 300),
+            //   child: selectedStore == null
+            //       ? const SizedBox()
+            //       : Padding(
+            //           padding: const EdgeInsets.all(16.0),
+            //           child: AnimatedContainer(
+            //             duration: const Duration(milliseconds: 300),
+            //             padding: const EdgeInsets.all(20),
+            //             decoration: BoxDecoration(
+            //               color: Colors.white,
+            //               borderRadius: BorderRadius.circular(20),
+            //               boxShadow: [
+            //                 BoxShadow(
+            //                   color: Colors.grey.withOpacity(0.3),
+            //                   blurRadius: 10,
+            //                   offset: const Offset(0, 5),
+            //                 ),
+            //               ],
+            //             ),
+            //             child: Column(
+            //               crossAxisAlignment: CrossAxisAlignment.start,
+            //               children: [
+            //                 Text(
+            //                   "Selected store: $selectedStore",
+            //                   style: const TextStyle(
+            //                     fontWeight: FontWeight.bold,
+            //                     fontSize: 16,
+            //                     color: Colors.deepPurple,
+            //                   ),
+            //                 ),
+            //                 const SizedBox(height: 20),
+
+            //                 _inputField(productName, "Product Name"),
+            //                 const SizedBox(height: 12),
+
+            //                 _inputField(
+            //                   productPrice,
+            //                   "Price",
+            //                   type: TextInputType.number,
+            //                 ),
+            //                 const SizedBox(height: 12),
+
+            //                 _inputField(
+            //                   productDesc,
+            //                   "Description",
+            //                   maxLines: 3,
+            //                 ),
+            //                 const SizedBox(height: 20),
+
+            //                 /// Save Button
+            //                 SizedBox(
+            //                   width: double.infinity,
+            //                   child: ElevatedButton(
+            //                     style: ElevatedButton.styleFrom(
+            //                       padding: const EdgeInsets.symmetric(
+            //                         vertical: 14,
+            //                       ),
+            //                       shape: RoundedRectangleBorder(
+            //                         borderRadius: BorderRadius.circular(15),
+            //                       ),
+            //                       backgroundColor: Colors.deepPurple,
+            //                     ),
+            //                     onPressed: () {
+            //                       // حفظ المنتج
+            //                     },
+            //                     child: const Text(
+            //                       "Save Product",
+            //                       style: TextStyle(
+            //                         color: Colors.white,
+            //                         fontSize: 16,
+            //                       ),
+            //                     ),
+            //                   ),
+            //                 ),
+            //               ],
+            //             ),
+            //           ),
+            //         ),
+            // ),
           ],
         ),
       ),
@@ -161,11 +271,13 @@ class _AddProductsScreenState extends State<AddProductsScreen> {
     String hint, {
     int maxLines = 1,
     TextInputType type = TextInputType.text,
+    String? Function(String?)? validator,
   }) {
-    return TextField(
+    return TextFormField(
       controller: controller,
       maxLines: maxLines,
       keyboardType: type,
+      validator: validator,
       decoration: InputDecoration(
         hintText: hint,
         contentPadding: const EdgeInsets.symmetric(
@@ -177,6 +289,28 @@ class _AddProductsScreenState extends State<AddProductsScreen> {
     );
   }
 }
+
+//   Widget _inputField(
+//     TextEditingController controller,
+//     String hint, {
+//     int maxLines = 1,
+//     TextInputType type = TextInputType.text,
+//   }) {
+//     return TextField(
+//       controller: controller,
+//       maxLines: maxLines,
+//       keyboardType: type,
+//       decoration: InputDecoration(
+//         hintText: hint,
+//         contentPadding: const EdgeInsets.symmetric(
+//           horizontal: 12,
+//           vertical: 12,
+//         ),
+//         border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
+//       ),
+//     );
+//   }
+// }
 
 /// =================================================================
 ///                            CREATE STORE BUTTON

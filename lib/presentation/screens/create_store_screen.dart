@@ -69,6 +69,14 @@ class _CreateStoreScreenState extends State<CreateStoreScreen> {
     setState(() {});
   }
 
+  Future<void> createNewStore() async {
+    try {
+      print("success create ");
+    } catch (e) {
+      print(e.toString());
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -419,7 +427,9 @@ class _CreateStoreScreenState extends State<CreateStoreScreen> {
             borderRadius: BorderRadius.circular(12),
           ),
         ),
-        onPressed: () {},
+        onPressed: () async {
+          await createNewStore();
+        },
         child: Text(
           "Create Store",
           style: TextStyle(fontSize: 18, color: Colors.white),
