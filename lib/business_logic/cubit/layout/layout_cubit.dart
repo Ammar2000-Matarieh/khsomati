@@ -24,7 +24,7 @@ class LayoutCubit extends Cubit<LayoutState> {
         return const NotificationsScreen();
 
       case 2:
-        return const TestScreen();
+        return const ShopScreen();
       case 3:
         return ProfileScreen();
       default:

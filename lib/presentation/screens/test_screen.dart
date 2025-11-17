@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class TestScreen extends StatelessWidget {
-  const TestScreen({super.key});
+class ShopScreen extends StatelessWidget {
+  const ShopScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -10,7 +10,7 @@ class TestScreen extends StatelessWidget {
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: [Text("Test")],
+          children: [Text("Shop")],
         ),
       ),
     );
