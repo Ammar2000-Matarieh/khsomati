@@ -90,11 +90,10 @@ class _OtpScreenState extends State<OtpScreen> {
                     height: 55,
                     child: ElevatedButton(
                       onPressed: () {
-                        // if()
-                        //context.read<AuthCubit>().verifyCode(
-                        //   verificationId: widget.verificationId,
-                        //   smsCode: pinController.text,
-                        // );
+                        context.read<AuthCubit>().verifyCode(
+                          verificationId: widget.verificationId,
+                          smsCode: pinController.text,
+                        );
                       },
                       style: ElevatedButton.styleFrom(
                         shape: RoundedRectangleBorder(
