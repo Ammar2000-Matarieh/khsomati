@@ -29,11 +29,10 @@ dependencies:
   intl_phone_field: ^3.2.0
   lottie: ^3.3.2
   permission_handler: ^12.0.1
-<<<<<<< HEAD
+
   firebase_messaging: ^16.0.4
 
-=======
->>>>>>> e7af9dbbc9840c09443a95d0f319e97159cb6344
+
   shared_preferences: ^2.5.3
   pinput: ^5.0.2
   url_launcher: ^6.3.2
