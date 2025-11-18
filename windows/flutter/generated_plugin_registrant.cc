@@ -13,7 +13,6 @@
 #include <firebase_storage/firebase_storage_plugin_c_api.h>
 #include <permission_handler_windows/permission_handler_windows_plugin.h>
 #include <rive_native/rive_native_plugin.h>
-#include <smart_auth/smart_auth_plugin.h>
 
 void RegisterPlugins(flutter::PluginRegistry* registry) {
   CloudFirestorePluginCApiRegisterWithRegistrar(
@@ -30,6 +29,4 @@ void RegisterPlugins(flutter::PluginRegistry* registry) {
       registry->GetRegistrarForPlugin("PermissionHandlerWindowsPlugin"));
   RiveNativePluginRegisterWithRegistrar(
       registry->GetRegistrarForPlugin("RiveNativePlugin"));
-  SmartAuthPluginRegisterWithRegistrar(
-      registry->GetRegistrarForPlugin("SmartAuthPlugin"));
 }

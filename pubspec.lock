@@ -273,7 +273,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.3.0"
-<<<<<<< HEAD
   firebase_messaging:
     dependency: "direct main"
     description:
@@ -298,7 +297,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "4.1.0"
-=======
   firebase_storage:
     dependency: "direct main"
     description:
@@ -323,7 +321,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.11.0"
->>>>>>> 2f8cd625a159c85b2936247ab527d0c1e14a23f0
   flutter:
     dependency: "direct main"
     description: flutter
@@ -596,10 +593,10 @@ packages:
     dependency: transitive
     description:
       name: meta
-      sha256: e3641ec5d63ebf0d9b41bd43201a66e3fc79a65db5f61fc181f04cd27aab950c
+      sha256: "23f08335362185a5ea2ad3a4e597f1375e78bce8a040df5c600c8d3552ef2394"
       url: "https://pub.dev"
     source: hosted
-    version: "1.16.0"
+    version: "1.17.0"
   mime:
     dependency: transitive
     description:
@@ -708,10 +705,10 @@ packages:
     dependency: "direct main"
     description:
       name: pinput
-      sha256: a92b55ecf9c25d1b9e100af45905385d5bc34fc9b6b04177a9e82cb88fe4d805
+      sha256: c41f42ee301505ae2375ec32871c985d3717bf8aee845620465b286e0140aad2
       url: "https://pub.dev"
     source: hosted
-    version: "3.0.1"
+    version: "5.0.2"
   platform:
     dependency: transitive
     description:
@@ -772,18 +769,18 @@ packages:
     dependency: transitive
     description:
       name: shared_preferences_android
-      sha256: "34266009473bf71d748912da4bf62d439185226c03e01e2d9687bc65bbfcb713"
+      sha256: "07d552dbe8e71ed720e5205e760438ff4ecfb76ec3b32ea664350e2ca4b0c43b"
       url: "https://pub.dev"
     source: hosted
-    version: "2.4.15"
+    version: "2.4.16"
   shared_preferences_foundation:
     dependency: transitive
     description:
       name: shared_preferences_foundation
-      sha256: "1c33a907142607c40a7542768ec9badfd16293bac51da3a4482623d15845f88b"
+      sha256: "4e7eaffc2b17ba398759f1151415869a34771ba11ebbccd1b0145472a619a64f"
       url: "https://pub.dev"
     source: hosted
-    version: "2.5.5"
+    version: "2.5.6"
   shared_preferences_linux:
     dependency: transitive
     description:
@@ -816,35 +813,11 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.4.1"
-  simple_gesture_detector:
-    dependency: transitive
-    description:
-      name: simple_gesture_detector
-      sha256: ba2cd5af24ff20a0b8d609cec3f40e5b0744d2a71804a2616ae086b9c19d19a3
-      url: "https://pub.dev"
-    source: hosted
-    version: "0.2.1"
   sky_engine:
     dependency: transitive
     description: flutter
     source: sdk
     version: "0.0.0"
-  smart_auth:
-    dependency: transitive
-    description:
-      name: smart_auth
-      sha256: a25229b38c02f733d0a4e98d941b42bed91a976cb589e934895e60ccfa674cf6
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.1.1"
-  smooth_page_indicator:
-    dependency: "direct main"
-    description:
-      name: smooth_page_indicator
-      sha256: b21ebb8bc39cf72d11c7cfd809162a48c3800668ced1c9da3aade13a32cf6c1c
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.2.1"
   source_span:
     dependency: transitive
     description:
@@ -877,14 +850,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.4.1"
-  table_calendar:
-    dependency: "direct main"
-    description:
-      name: table_calendar
-      sha256: "0c0c6219878b363a2d5f40c7afb159d845f253d061dc3c822aa0d5fe0f721982"
-      url: "https://pub.dev"
-    source: hosted
-    version: "3.2.0"
   term_glyph:
     dependency: transitive
     description:
@@ -897,10 +862,9 @@ packages:
     dependency: transitive
     description:
       name: test_api
-      sha256: "522f00f556e73044315fa4585ec3270f1808a4b186c936e612cab0b565ff1e00"
+      sha256: ab2726c1a94d3176a45960b6234466ec367179b87dd74f1611adb1f3b5fb9d55
       url: "https://pub.dev"
     source: hosted
-<<<<<<< HEAD
     version: "0.7.7"
   timezone:
     dependency: transitive
@@ -910,9 +874,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.10.1"
-=======
-    version: "0.7.6"
->>>>>>> 2f8cd625a159c85b2936247ab527d0c1e14a23f0
   typed_data:
     dependency: transitive
     description:
