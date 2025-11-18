@@ -7,7 +7,9 @@ import 'package:image_picker/image_picker.dart';
 import 'package:khsomati/business_logic/cubit/auth/auth_cubit.dart';
 import 'package:khsomati/business_logic/cubit/store/store_cubit.dart';
 import 'package:khsomati/constants/app_colors.dart';
+import 'package:khsomati/data/models/user_model.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class CreateStoreScreen extends StatefulWidget {
   const CreateStoreScreen({super.key});
@@ -431,16 +433,30 @@ class _CreateStoreScreenState extends State<CreateStoreScreen> {
           ),
         ),
         onPressed: () async {
-          // final userId = context.read<AuthCubit>().userModel!.id;
+          UserModel? storedUser = await context
+              .read<AuthCubit>()
+              .getStoredUser();
+
+          if (storedUser != null) {
+            String? userId = storedUser.id;
+
+            if (userId != null) {
+              print('User ID is: $userId');
+            }
+          } else {
+            print('No user data found in SharedPreferences.');
+          }
+
           await context.read<StoreCubit>().creatStore(
             name: nameController.text.trim(),
-            // userId: userId!,
+            userId: storedUser!.id!,
             description: descriptionController.text.trim(),
             phone: phoneController.text.trim(),
             whatsapp: whatsappController.text.trim(),
             mainImage: mainImage!,
             extraImages: extraImages,
           );
+          print(storedUser.id);
         },
         child: Text(
           "Create Store",

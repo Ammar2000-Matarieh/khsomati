@@ -13,7 +13,7 @@ class StoreCubit extends Cubit<StoreState> {
   StoreCubit() : super(Default());
 
   Future<void> creatStore({
-    // required String userId,
+    required String userId,
     required String name,
     required String description,
     required String phone,
@@ -39,7 +39,7 @@ class StoreCubit extends Cubit<StoreState> {
       final id = doc.id;
       StoreModel store = StoreModel(
         id: id,
-        // userId: userId,
+        userId: userId,
         name: name,
         description: description,
         phone: phone,
