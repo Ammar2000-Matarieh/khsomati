@@ -7,4 +7,5 @@ class RouteString {
   static const String personaldetails = '/personaldetails';
   static const String layout = '/layout';
   static const String addProductsRoute = '/addProducts';
+  static const String viewProduct = '/viewProduct';
 }

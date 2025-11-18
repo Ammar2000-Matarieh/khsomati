@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:khsomati/constants/app_size.dart';
 import 'package:khsomati/data/models/on_boarding_model.dart';
 import 'package:khsomati/presentation/widget/text_feild.dart';
+import 'package:khsomati/router/route_string.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -129,6 +130,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       TextButton(
                         onPressed: () {
                           // return
+                          Navigator.pushNamed(context, RouteString.viewProduct);
                         },
                         child: Text("See all", style: TextStyle(fontSize: 16)),
                       ),
