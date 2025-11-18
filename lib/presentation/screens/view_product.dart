@@ -55,9 +55,15 @@ class _ViewProductState extends State<ViewProduct> {
   }
 }
 
-class CustomItem extends StatelessWidget {
+class CustomItem extends StatefulWidget {
   const CustomItem({super.key});
 
+  @override
+  State<CustomItem> createState() => _CustomItemState();
+}
+
+class _CustomItemState extends State<CustomItem> {
+  bool isFavorite = false;
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -125,11 +131,33 @@ class CustomItem extends StatelessWidget {
                       ],
                     ),
                     Positioned(
-                      bottom: 20,
+                      bottom: 5,
                       right: 0,
                       child: IconButton(
                         onPressed: () {},
                         icon: Icon(Icons.location_on, color: Colors.red),
+                      ),
+                    ),
+                    Positioned(
+                      bottom: 50,
+                      right: 0,
+                      child: Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(200),
+                          color: Colors.grey[200],
+                        ),
+                        child: IconButton(
+                          onPressed: () {
+                            setState(() {
+                              isFavorite = !isFavorite; // قلب الحالة عند الضغط
+                            });
+                          },
+                          icon: Icon(
+                            Icons.favorite,
+                            color: isFavorite ? Colors.red : Colors.white,
+                            size: 30,
+                          ),
+                        ),
                       ),
                     ),
                   ],
