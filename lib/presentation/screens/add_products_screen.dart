@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:khsomati/business_logic/cubit/store/store_cubit.dart';
+import 'package:khsomati/business_logic/cubit/store/store_state.dart';
 import 'package:khsomati/constants/app_colors.dart';
+import 'package:khsomati/data/models/store_model.dart';
 import 'package:khsomati/presentation/screens/create_store_screen.dart';
 
 class AddProductsScreen extends StatefulWidget {
@@ -11,7 +15,7 @@ class AddProductsScreen extends StatefulWidget {
 
 class _AddProductsScreenState extends State<AddProductsScreen> {
   final _formKey = GlobalKey<FormState>();
-  final List stores = ["Zara", "Nike", "Adidas", "H&M", "Pull&Bear", "Bershka"];
+
   String? selectedStore; // المتجر المختار
 
   // Controllers
@@ -21,6 +25,7 @@ class _AddProductsScreenState extends State<AddProductsScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final List<StoreModel> stores = context.read<StoreCubit>().myStores;
     return Scaffold(
       appBar: AppBar(title: const Text("Add Product")),
       body: SingleChildScrollView(
@@ -46,22 +51,48 @@ class _AddProductsScreenState extends State<AddProductsScreen> {
                   const SizedBox(width: 20),
 
                   Expanded(
-                    child: ListView.separated(
-                      scrollDirection: Axis.horizontal,
-                      itemBuilder: (context, index) {
-                        return StoreItemWidget(
-                          storeName: stores[index],
-                          isSelected: selectedStore == stores[index],
-                          onTap: () {
-                            setState(() {
-                              selectedStore = stores[index];
-                            });
-                          },
-                        );
+                    child: BlocBuilder<StoreCubit, StoreState>(
+                      builder: (context, state) {
+                        if (state is StoreCreated) {
+                          return ListView.separated(
+                            scrollDirection: Axis.horizontal,
+                            itemBuilder: (context, index) {
+                              return StoreItemWidget(
+                                storeName: stores[index].name!,
+                                isSelected:
+                                    selectedStore == stores[index].name!,
+                                onTap: () {
+                                  setState(() {
+                                    selectedStore = stores[index].name!;
+                                  });
+                                },
+                              );
+                            },
+                            separatorBuilder: (context, index) =>
+                                const SizedBox(width: 20),
+                            itemCount: stores.length,
+                          );
+                        } else {
+                          return ListView.separated(
+                            scrollDirection: Axis.horizontal,
+                            itemBuilder: (context, index) {
+                              return StoreItemWidget(
+                                storeName: stores[index].name!,
+                                isSelected:
+                                    selectedStore == stores[index].name!,
+                                onTap: () {
+                                  setState(() {
+                                    selectedStore = stores[index].name!;
+                                  });
+                                },
+                              );
+                            },
+                            separatorBuilder: (context, index) =>
+                                const SizedBox(width: 20),
+                            itemCount: stores.length,
+                          );
+                        }
                       },
-                      separatorBuilder: (context, index) =>
-                          const SizedBox(width: 20),
-                      itemCount: stores.length,
                     ),
                   ),
                 ],

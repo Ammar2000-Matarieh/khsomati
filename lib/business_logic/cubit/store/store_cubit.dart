@@ -8,7 +8,7 @@ import 'package:khsomati/data/models/store_model.dart';
 
 class StoreCubit extends Cubit<StoreState> {
   StoreCubit() : super(Default());
-
+  List<StoreModel> myStores = [];
   Future<void> creatStore({
     required String userId,
     required String name,
@@ -45,6 +45,7 @@ class StoreCubit extends Cubit<StoreState> {
         extraImagesUrls: extraImagesUrls,
       );
       await doc.set(store.toJson());
+      myStores.add(store);
       emit(StoreCreated());
     } catch (e) {
       emit(Erorr(message: "message $e"));
@@ -83,6 +84,23 @@ class StoreCubit extends Cubit<StoreState> {
     } catch (e) {
       print("Upload Error: $e");
       return "";
+    }
+  }
+
+  Future<void> getMyStores({required String userId}) async {
+    try {
+      myStores.clear();
+      final doc = await FirebaseFirestore.instance
+          .collection('store')
+          .where('userId', isEqualTo: userId)
+          .get();
+      if (doc.docs.isNotEmpty) {
+        myStores = doc.docs.map((doc) {
+          return StoreModel.fromJson(doc.data());
+        }).toList();
+      }
+    } catch (e) {
+      print(e.toString());
     }
   }
 }

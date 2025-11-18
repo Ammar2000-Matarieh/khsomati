@@ -2,7 +2,9 @@ import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:khsomati/business_logic/cubit/auth/auth_cubit.dart';
 import 'package:khsomati/business_logic/cubit/localization/localization_cubit.dart';
+import 'package:khsomati/business_logic/cubit/store/store_cubit.dart';
 import 'package:khsomati/constants/app_colors.dart';
 import 'package:khsomati/constants/app_constant.dart';
 import 'package:khsomati/constants/app_size.dart';
@@ -103,9 +105,13 @@ class CustomComponentsDrawer extends StatelessWidget {
               ListTileWidget(
                 text: t(AppTranslation.addProducts),
                 leading: CupertinoIcons.add_circled,
-                onTap: () => Navigator.of(
-                  context,
-                ).pushNamed(RouteString.addProductsRoute),
+                onTap: () async {
+                  final auth = context.read<AuthCubit>();
+                  await auth.getStoredUser();
+                  final userId = auth.userModel!.id;
+                  await context.read<StoreCubit>().getMyStores(userId: userId!);
+                  Navigator.pushNamed(context, RouteString.addProductsRoute);
+                },
               ),
 
               ListTileWidget(
