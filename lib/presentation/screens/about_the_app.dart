@@ -1,11 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
-
-import 'package:flutter/material.dart';
-import 'package:flutter_html/flutter_html.dart';
-
-import 'package:flutter/material.dart';
-import 'package:flutter_html/flutter_html.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 
 class AboutTheApp extends StatefulWidget {

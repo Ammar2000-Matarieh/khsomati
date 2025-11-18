@@ -16,6 +16,11 @@ dependencies:
   firebase_auth: ^6.1.2
   firebase_core: ^4.2.1
   firebase_messaging: ^16.0.4
+<<<<<<< HEAD
+=======
+  
+ 
+>>>>>>> b78999bfdc0b9c85e927baa1e3c2601f4ad360e7
   firebase_storage: ^13.0.4
   flutter:
     sdk: flutter
@@ -29,6 +34,19 @@ dependencies:
   image_picker: ^1.2.1
   intl_phone_field: ^3.2.0
   lottie: ^3.3.2
+<<<<<<< HEAD
+=======
+  permission_handler: ^12.0.1
+
+
+  firebase_messaging: ^16.0.4
+
+
+  shared_preferences: ^2.5.3
+  pinput: ^5.0.2
+  url_launcher: ^6.3.2
+  flutter_html: ^3.0.0
+>>>>>>> b78999bfdc0b9c85e927baa1e3c2601f4ad360e7
   package_info_plus: ^9.0.0
   permission_handler: ^12.0.1
   pinput: ^5.0.2
