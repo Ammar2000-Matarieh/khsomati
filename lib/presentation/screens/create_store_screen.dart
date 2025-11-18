@@ -2,7 +2,10 @@ import 'dart:typed_data';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:khsomati/business_logic/cubit/auth/auth_cubit.dart';
+import 'package:khsomati/business_logic/cubit/store/store_cubit.dart';
 import 'package:khsomati/constants/app_colors.dart';
 import 'package:permission_handler/permission_handler.dart';
 
@@ -428,7 +431,16 @@ class _CreateStoreScreenState extends State<CreateStoreScreen> {
           ),
         ),
         onPressed: () async {
-          await createNewStore();
+          // final userId = context.read<AuthCubit>().userModel!.id;
+          await context.read<StoreCubit>().creatStore(
+            name: nameController.text.trim(),
+            // userId: userId!,
+            description: descriptionController.text.trim(),
+            phone: phoneController.text.trim(),
+            whatsapp: whatsappController.text.trim(),
+            mainImage: mainImage!,
+            extraImages: extraImages,
+          );
         },
         child: Text(
           "Create Store",

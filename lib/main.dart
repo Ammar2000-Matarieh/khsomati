@@ -7,6 +7,7 @@ import 'package:khsomati/business_logic/cubit/auth/auth_cubit.dart';
 import 'package:khsomati/business_logic/cubit/localization/localization_cubit.dart';
 import 'package:khsomati/business_logic/cubit/localization/localization_state.dart';
 import 'package:khsomati/business_logic/cubit/layout/layout_cubit.dart';
+import 'package:khsomati/business_logic/cubit/store/store_cubit.dart';
 import 'package:khsomati/constants/app_colors.dart';
 import 'package:khsomati/constants/app_size.dart';
 import 'package:khsomati/firebase_options.dart';
@@ -38,6 +39,7 @@ void main() async {
         BlocProvider(create: (_) => AuthCubit()),
         BlocProvider(create: (_) => LocalizationCubit()),
         BlocProvider(create: (_) => LayoutCubit()),
+        BlocProvider(create: (_) => StoreCubit()),
       ],
       child: const Khosomati(),
     ),

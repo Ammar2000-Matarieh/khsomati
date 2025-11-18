@@ -8,30 +8,34 @@ environment:
   sdk: ^3.9.2
 
 dependencies:
+  awesome_dialog: ^3.3.0
+  carousel_slider: ^5.1.1
   cloud_firestore: ^6.1.0
   cupertino_icons: ^1.0.8
+  equatable: ^2.0.7
   firebase_auth: ^6.1.2
   firebase_core: ^4.2.1
+  firebase_storage: ^13.0.4
   flutter:
     sdk: flutter
   flutter_bloc: ^9.1.1
   flutter_localizations:
     sdk: flutter
   flutter_spinkit: ^5.2.2
+  http: ^1.6.0
   image_picker: ^1.2.1
-  table_calendar: ^3.2.0
-  carousel_slider: ^5.1.1
-
   intl_phone_field: ^3.2.0
-  pinput: ^3.0.1
-  smooth_page_indicator: ^1.2.1
-  equatable: ^2.0.7
-  awesome_dialog: ^3.3.0
   lottie: ^3.3.2
-  shared_preferences: ^2.5.3
   permission_handler: ^12.0.1
+<<<<<<< HEAD
   firebase_messaging: ^16.0.4
   flutter_local_notifications: ^19.5.0
+=======
+  pinput: ^3.0.1
+  shared_preferences: ^2.5.3
+  smooth_page_indicator: ^1.2.1
+  table_calendar: ^3.2.0
+>>>>>>> 2f8cd625a159c85b2936247ab527d0c1e14a23f0
 
 dev_dependencies:
   flutter_lints: ^5.0.0
