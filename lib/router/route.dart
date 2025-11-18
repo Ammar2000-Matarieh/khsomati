@@ -7,6 +7,7 @@ import 'package:khsomati/presentation/screens/layout_screen.dart';
 import 'package:khsomati/presentation/screens/onboarding_screen.dart';
 import 'package:khsomati/presentation/screens/personal_details.dart';
 import 'package:khsomati/presentation/screens/splash_screen.dart';
+import 'package:khsomati/presentation/screens/view_product.dart';
 import 'package:khsomati/router/route_string.dart';
 
 Map<String, Widget Function(BuildContext)> routes = <String, WidgetBuilder>{
@@ -23,4 +24,6 @@ Map<String, Widget Function(BuildContext)> routes = <String, WidgetBuilder>{
   RouteString.personaldetails: (context) => PersonalDetails(),
   RouteString.layout: (context) => LayoutScreen(),
   RouteString.addProductsRoute: (context) => AddProductsScreen(),
+
+  RouteString.viewProduct: (context) => ViewProduct(),
 };

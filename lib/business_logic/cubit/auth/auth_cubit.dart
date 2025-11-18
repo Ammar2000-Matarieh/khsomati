@@ -74,8 +74,8 @@ class AuthCubit extends Cubit<AuthState> {
       }
 
       // save :
-      final SharedPreferences sharedPreferences =
-          await SharedPreferences.getInstance();
+      // final SharedPreferences sharedPreferences =
+      //     await SharedPreferences.getInstance();
 
       saveUser(userModel!);
 
@@ -85,6 +85,14 @@ class AuthCubit extends Cubit<AuthState> {
     } catch (e) {
       emit(AuthError("message : $e"));
       print(e);
+    }
+  }
+
+  Future<void> loadUserFromLocal() async {
+    final storedUser = await getStoredUser();
+    if (storedUser != null) {
+      userModel = storedUser;
+      emit(AuthLogedIn()); // سيحدث BlocBuilder مباشرة
     }
   }
 
@@ -177,6 +185,32 @@ class AuthCubit extends Cubit<AuthState> {
       } catch (e) {
         AuthError("message : $e");
       }
+    }
+  }
+
+  Future<void> updateUserField({
+    required String field,
+    required String value,
+  }) async {
+    try {
+      emit(AuthLoading());
+
+      // 1. تحديث Firestore
+      await FirebaseFirestore.instance
+          .collection("user")
+          .doc(userModel!.id)
+          .update({field: value});
+
+      // 2. تحديث ال model داخل التطبيق
+      userModel = userModel!.copyWithField(field, value);
+
+      // 3. حفظ النسخة المحدثة في SharedPreferences
+      await saveUser(userModel!);
+
+      // 4. بث التحديث للتطبيق (مهم جدًا)
+      emit(AuthLogedIn());
+    } catch (e) {
+      emit(AuthError("Update failed: $e"));
     }
   }
 }

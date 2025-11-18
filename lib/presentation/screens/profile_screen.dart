@@ -1,144 +1,129 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:khsomati/business_logic/cubit/auth/auth_cubit.dart';
 import 'package:khsomati/constants/app_colors.dart';
+import 'package:khsomati/data/models/user_model.dart';
 import 'package:khsomati/presentation/widget/text_feild.dart';
 
-class ProfileScreen extends StatelessWidget {
+class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
+
+  @override
+  State<ProfileScreen> createState() => _ProfileScreenState();
+}
+
+class _ProfileScreenState extends State<ProfileScreen> {
+  @override
+  void initState() {
+    super.initState();
+    context.read<AuthCubit>().loadUserFromLocal();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
 
-      // appBar: AppBar(
-      //   backgroundColor: AppColors.primary,
-      //   elevation: 0,
-      //   title: Text("Profile", style: TextStyle(color: Colors.white)),
-      //   centerTitle: true,
-      // ),
-      body: ListView(
-        padding: EdgeInsets.all(16),
-        children: [
-          // ---------------- HEADER ----------------
-          Container(
-            padding: EdgeInsets.all(20),
-            decoration: BoxDecoration(
-              color: AppColors.primary,
-              borderRadius: BorderRadius.circular(16),
-            ),
-            child: Column(
-              children: [
-                CircleAvatar(
-                  radius: 45,
-                  backgroundColor: Colors.white,
-                  child: Icon(Icons.person, size: 50, color: AppColors.primary),
-                ),
-                SizedBox(height: 12),
-                Text(
-                  "Ammar Matarieh",
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                SizedBox(height: 4),
-                Text(
-                  "ammar@gmail.com",
-                  style: TextStyle(color: Colors.white70, fontSize: 14),
-                ),
-              ],
-            ),
-          ),
+      body: BlocBuilder<AuthCubit, AuthState>(
+        builder: (context, state) {
+          final authCubit = context.read<AuthCubit>();
+          final user = authCubit.userModel;
 
-          SizedBox(height: 25),
+          if (user == null) {
+            return Center(child: CircularProgressIndicator());
+          }
 
-          // --------------- SECTIONS ----------------
-          Text(
-            "Account Info",
-            style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-          ),
-          SizedBox(height: 10),
-
-          ProfileTile(
-            icon: CupertinoIcons.person,
-            title: "First Name",
-            value: "Ammar",
-          ),
-          ProfileTile(
-            icon: CupertinoIcons.person,
-            title: "Last Name",
-            value: "Matarieh",
-          ),
-          ProfileTile(
-            icon: CupertinoIcons.mail,
-            title: "Email",
-            value: "ammar@gmail.com",
-          ),
-          ProfileTile(
-            icon: CupertinoIcons.phone,
-            title: "Phone",
-            value: "+962 7X XXX XXXX",
-          ),
-
-          SizedBox(height: 25),
-
-          // Text(
-          //   "Settings",
-          //   style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-          // ),
-          // SizedBox(height: 10),
-
-          // ProfileTile(
-          //   icon: CupertinoIcons.lock,
-          //   title: "Change Password",
-          //   value: "*********",
-          // ),
-          // ProfileTile(
-          //   icon: Icons.language,
-          //   title: "Language",
-          //   value: "English",
-          // ),
-          // ProfileTile(
-          //   icon: Icons.dark_mode,
-          //   title: "Theme",
-          //   value: "Light Mode",
-          // ),
-
-          // SizedBox(height: 25),
-
-          // ElevatedButton(
-          //   style: ElevatedButton.styleFrom(
-          //     backgroundColor: Colors.red,
-          //     padding: EdgeInsets.symmetric(vertical: 14),
-          //     shape: RoundedRectangleBorder(
-          //       borderRadius: BorderRadius.circular(12),
-          //     ),
-          //   ),
-          //   onPressed: () {},
-          //   child: Text(
-          //     "Logout",
-          //     style: TextStyle(fontSize: 16, color: Colors.white),
-          //   ),
-          // ),
-        ],
+          return buildProfileUI(context, user);
+        },
       ),
+    );
+  }
+
+  Widget buildProfileUI(BuildContext context, UserModel user) {
+    return ListView(
+      padding: EdgeInsets.all(16),
+      children: [
+        Container(
+          padding: EdgeInsets.all(20),
+          decoration: BoxDecoration(
+            color: AppColors.primary,
+            borderRadius: BorderRadius.circular(16),
+          ),
+          child: Column(
+            children: [
+              CircleAvatar(
+                radius: 45,
+                backgroundColor: Colors.white,
+                child: Icon(Icons.person, size: 50, color: AppColors.primary),
+              ),
+              SizedBox(height: 12),
+              Text(
+                "${user.firstName} ${user.lastName}",
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              SizedBox(height: 4),
+              Text(
+                user.email ?? "",
+                style: TextStyle(color: Colors.white70, fontSize: 14),
+              ),
+            ],
+          ),
+        ),
+
+        SizedBox(height: 25),
+
+        Text(
+          "Account Info",
+          style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+        ),
+        SizedBox(height: 10),
+
+        ProfileTile(
+          icon: CupertinoIcons.person,
+          title: "First Name",
+          value: user.firstName ?? "",
+          field: "firstName",
+        ),
+        ProfileTile(
+          icon: CupertinoIcons.person,
+          title: "Last Name",
+          value: user.lastName ?? "",
+          field: "lastName",
+        ),
+        ProfileTile(
+          icon: CupertinoIcons.mail,
+          title: "Email",
+          value: user.email ?? "",
+          field: "email",
+        ),
+        ProfileTile(
+          icon: CupertinoIcons.phone,
+          title: "Phone",
+          value: user.phone ?? "",
+          field: "phone",
+        ),
+      ],
     );
   }
 }
 
-/// -------------------- CUSTOM TILE --------------------
 class ProfileTile extends StatelessWidget {
   final IconData icon;
   final String title;
   final String value;
+  final String field;
 
   const ProfileTile({
     super.key,
     required this.icon,
     required this.title,
     required this.value,
+    required this.field,
   });
 
   @override
@@ -174,49 +159,43 @@ class ProfileTile extends StatelessWidget {
               ],
             ),
           ),
+
           IconButton(
             onPressed: () {
+              final controller = TextEditingController(text: value);
+
               showDialog(
                 context: context,
                 builder: (context) {
                   return AlertDialog(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                    title: Text("Update Info"),
+                    title: Text("Update $title"),
                     content: Column(
                       mainAxisSize: MainAxisSize.min,
-
                       children: [
                         CustomTextFormField(
+                          controller: controller,
                           prefixIcon: Icon(icon),
-                          hintText: "E-mail",
-                          validator: (value) {
-                            if (value!.isEmpty) {
-                              return "";
-                            }
-                            return null;
-                          },
+                          hintText: title,
                         ),
-                        SizedBox(height: 10),
-                        Row(
-                          children: [
-                            Expanded(
-                              child: ElevatedButton(
-                                style: ElevatedButton.styleFrom(
-                                  backgroundColor: AppColors.primary,
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(8),
-                                  ),
-                                ),
-                                onPressed: () {},
-                                child: Text(
-                                  "Save",
-                                  style: TextStyle(color: AppColors.white),
-                                ),
-                              ),
-                            ),
-                          ],
+                        SizedBox(height: 15),
+                        ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: AppColors.primary,
+                          ),
+                          onPressed: () async {
+                            final authCubit = context.read<AuthCubit>();
+
+                            await authCubit.updateUserField(
+                              field: field,
+                              value: controller.text.trim(),
+                            );
+
+                            Navigator.pop(context);
+                          },
+                          child: Text(
+                            "Save",
+                            style: TextStyle(color: AppColors.white),
+                          ),
                         ),
                       ],
                     ),
@@ -224,8 +203,7 @@ class ProfileTile extends StatelessWidget {
                 },
               );
             },
-            icon: Icon(Icons.edit, size: 16),
-            color: Colors.black38,
+            icon: Icon(Icons.edit, size: 16, color: Colors.black38),
           ),
         ],
       ),
