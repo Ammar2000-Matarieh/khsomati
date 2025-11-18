@@ -47,4 +47,62 @@ class UserModel {
       'photo': photo,
     };
   }
+
+  UserModel copyWithField(String field, dynamic value) {
+    switch (field) {
+      case "firstName":
+        return UserModel(
+          id: id,
+          firstName: value,
+          lastName: lastName,
+          phone: phone,
+          email: email,
+          gender: gender,
+          date: date,
+          token: token,
+          photo: photo,
+        );
+
+      case "lastName":
+        return UserModel(
+          id: id,
+          firstName: firstName,
+          lastName: value,
+          phone: phone,
+          email: email,
+          gender: gender,
+          date: date,
+          token: token,
+          photo: photo,
+        );
+
+      case "email":
+        return UserModel(
+          id: id,
+          firstName: firstName,
+          lastName: lastName,
+          phone: phone,
+          email: value,
+          gender: gender,
+          date: date,
+          token: token,
+          photo: photo,
+        );
+
+      case "phone":
+        return UserModel(
+          id: id,
+          firstName: firstName,
+          lastName: lastName,
+          phone: value,
+          email: email,
+          gender: gender,
+          date: date,
+          token: token,
+          photo: photo,
+        );
+    }
+
+    return this;
+  }
 }
