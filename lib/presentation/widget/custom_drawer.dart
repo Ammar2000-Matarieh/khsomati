@@ -1,4 +1,5 @@
 import 'package:awesome_dialog/awesome_dialog.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -10,6 +11,7 @@ import 'package:khsomati/constants/app_constant.dart';
 import 'package:khsomati/constants/app_size.dart';
 import 'package:khsomati/constants/translation/app_translation.dart';
 import 'package:khsomati/router/route_string.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class CustomPopUpChangeLanguage extends StatelessWidget {
   const CustomPopUpChangeLanguage({super.key});
@@ -117,7 +119,8 @@ class CustomComponentsDrawer extends StatelessWidget {
               ListTileWidget(
                 text: t(AppTranslation.support),
                 leading: CupertinoIcons.question_circle,
-                onTap: () {},
+                onTap: () =>
+                    Navigator.of(context).pushNamed(RouteString.mySupport),
               ),
 
               SizedBox(height: 10),
@@ -132,14 +135,16 @@ class CustomComponentsDrawer extends StatelessWidget {
               ListTileWidget(
                 text: t(AppTranslation.privacypolices),
                 leading: Icons.privacy_tip_outlined,
-                onTap: () {},
+                onTap: () =>
+                    Navigator.of(context).pushNamed(RouteString.privacyPolice),
               ),
 
               SizedBox(height: 10), // مسافة أقل
               ListTileWidget(
                 text: t(AppTranslation.aboutTheApp),
                 leading: Icons.app_settings_alt,
-                onTap: () {},
+                onTap: () =>
+                    Navigator.of(context).pushNamed(RouteString.aboutTheApp),
               ),
 
               SizedBox(height: 20), // زيادة بسيطة قبل زر تسجيل الخروج
@@ -162,20 +167,27 @@ class CustomComponentsDrawer extends StatelessWidget {
   }
 
   void _showLogoutDialog(BuildContext context, Function(String) t) {
-    // الكود الخاص بالـ AwesomeDialog الذي وضعناه في الخطوة الأولى
     AwesomeDialog(
       context: context,
       dialogType: DialogType.warning,
       animType: AnimType.scale,
       title: t(AppTranslation.logOut) ?? 'تسجيل الخروج',
       desc: t(AppTranslation.logOut) ?? 'هل أنت متأكد أنك تريد تسجيل الخروج؟',
-      btnCancelText: t(AppTranslation.logOut) ?? 'إلغاء',
+      btnCancelText: t(AppTranslation.cancel) ?? 'إلغاء',
       btnCancelColor: Colors.grey,
       btnCancelOnPress: () {},
       btnOkText: t(AppTranslation.logOut) ?? 'خروج',
-      btnOkColor: Colors.red,
-      btnOkOnPress: () {
-        // منطق تسجيل الخروج
+      btnOkColor: AppColors.primary,
+      btnOkOnPress: () async {
+        final fire = FirebaseAuth.instance;
+        await fire.signOut();
+
+        final prefs = await SharedPreferences.getInstance();
+        await prefs.clear();
+
+        Navigator.of(
+          context,
+        ).pushNamedAndRemoveUntil(RouteString.login, (route) => false);
       },
     ).show();
   }

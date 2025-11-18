@@ -8,4 +8,7 @@ class RouteString {
   static const String layout = '/layout';
   static const String addProductsRoute = '/addProducts';
   static const String viewProduct = '/viewProduct';
+  static const String mySupport = '/Support';
+  static const String aboutTheApp = '/AboutTheApp';
+  static const String privacyPolice = '/PrivacyPolices';
 }

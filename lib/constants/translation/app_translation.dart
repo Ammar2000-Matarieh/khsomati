@@ -1,5 +1,6 @@
 final class AppTranslation {
   // new :
+  static const String cancel = "Cancel";
   static const String addProducts = "Add Products";
   static const String welcome = "welcome";
 

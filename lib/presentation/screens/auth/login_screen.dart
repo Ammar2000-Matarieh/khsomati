@@ -1,3 +1,4 @@
+import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:khsomati/business_logic/cubit/auth/auth_cubit.dart';
@@ -17,7 +18,7 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  final GlobalKey<FormState> _formKay = GlobalKey<FormState>();
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   TextEditingController phoneEditingController = TextEditingController();
 
   @override
@@ -27,7 +28,7 @@ class _LoginScreenState extends State<LoginScreen> {
       child: Scaffold(
         backgroundColor: AppColors.white,
         body: Form(
-          key: _formKay,
+          key: _formKey,
           child: SingleChildScrollView(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -41,7 +42,6 @@ class _LoginScreenState extends State<LoginScreen> {
                       fontFamily: 'Lato',
                       fontSize: AppSize.width * 0.06,
                       height: 1.0,
-                      letterSpacing: 0,
                       fontWeight: FontWeight.w500,
                       color: AppColors.primary,
                     ),
@@ -53,11 +53,9 @@ class _LoginScreenState extends State<LoginScreen> {
                     t(AppTranslation.khosomati),
                     style: TextStyle(
                       fontFamily: 'Lato',
-                      //fontSize: 22.39 ,
                       fontSize: AppSize.width * 0.1,
                       fontWeight: FontWeight.w700,
                       height: 1.0,
-                      letterSpacing: 0,
                       color: AppColors.primary,
                     ),
                   ),
@@ -65,31 +63,33 @@ class _LoginScreenState extends State<LoginScreen> {
                 SizedBox(height: AppSize.height * 0.07),
                 Lottie.asset("assets/lotties/Login (1).json"),
 
-                // SizedBox(height: 100),
                 CustomPhoneTextField(controller: phoneEditingController),
 
                 Center(
                   child: Padding(
-                    padding: const EdgeInsets.only(left: 20, right: 20),
+                    padding: const EdgeInsets.symmetric(horizontal: 20),
                     child: SizedBox(
                       height: 55,
                       width: AppSize.width,
                       child: ElevatedButton(
                         onPressed: () async {
-                          if (_formKay.currentState!.validate()) {
+                          if (_formKey.currentState!.validate() &&
+                              phoneEditingController.text.trim().isNotEmpty) {
                             await context.read<AuthCubit>().sendCode(
                               phone: phoneEditingController.text.trim(),
                             );
+                          } else {
+                            _showEmptyPhoneDialog(context);
                           }
                         },
                         style: ElevatedButton.styleFrom(
                           foregroundColor: Colors.white,
                           backgroundColor: AppColors.primary,
-                          textStyle: TextStyle(
+                          textStyle: const TextStyle(
                             fontSize: 20,
                             fontWeight: FontWeight.bold,
                           ),
-                          padding: EdgeInsets.symmetric(
+                          padding: const EdgeInsets.symmetric(
                             vertical: 16,
                             horizontal: 24,
                           ),
@@ -100,7 +100,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         child: BlocConsumer<AuthCubit, AuthState>(
                           builder: (context, state) {
                             if (state is AuthLoading) {
-                              return SizedBox(
+                              return const SizedBox(
                                 height: 24,
                                 width: 24,
                                 child: CircularProgressIndicator(
@@ -114,30 +114,18 @@ class _LoginScreenState extends State<LoginScreen> {
                           },
                           listener: (context, state) async {
                             if (state is AuthLogedIn) {
-                              // final SharedPreferences prefs =
-                              //     await SharedPreferences.getInstance();
-                              // await prefs.setBool('isLoggedIn', true);
-
-                              // 2. الانتقال إلى الصفحة الرئيسية (Home Page)
                               Navigator.pushReplacementNamed(
                                 context,
                                 RouteString.layout,
                               );
-                            }
-                            if (state is CodeSentState) {
+                            } else if (state is CodeSentState) {
                               Navigator.pushReplacementNamed(
                                 context,
                                 RouteString.otp,
                                 arguments: state.verificationId,
                               );
                             } else if (state is AuthError) {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(
-                                  content: Text(state.message),
-                                  backgroundColor: Colors.red,
-                                  behavior: SnackBarBehavior.floating,
-                                ),
-                              );
+                              // _showAuthErrorDialog(context, state.message);
                             }
                           },
                         ),
@@ -152,4 +140,173 @@ class _LoginScreenState extends State<LoginScreen> {
       ),
     );
   }
+
+  void _showEmptyPhoneDialog(BuildContext context) {
+    AwesomeDialog(
+      context: context,
+      dialogType: DialogType.warning,
+      animType: AnimType.scale,
+      headerAnimationLoop: false,
+      title: "حقل الهاتف فارغ",
+      desc: "الرجاء إدخال رقم الهاتف للمتابعة.",
+      btnOkText: "حسناً",
+      btnOkColor: AppColors.primary,
+      btnOkOnPress: () {},
+    ).show();
+  }
 }
+// class LoginScreen extends StatefulWidget {
+//   const LoginScreen({super.key});
+
+//   @override
+//   State<LoginScreen> createState() => _LoginScreenState();
+// }
+
+// class _LoginScreenState extends State<LoginScreen> {
+//   final GlobalKey<FormState> _formKay = GlobalKey<FormState>();
+//   TextEditingController phoneEditingController = TextEditingController();
+
+//   @override
+//   Widget build(BuildContext context) {
+//     final t = context.read<LocalizationCubit>().translate;
+//     return SafeArea(
+//       child: Scaffold(
+//         backgroundColor: AppColors.white,
+//         body: Form(
+//           key: _formKay,
+//           child: SingleChildScrollView(
+//             child: Column(
+//               mainAxisAlignment: MainAxisAlignment.center,
+//               crossAxisAlignment: CrossAxisAlignment.start,
+//               children: [
+//                 Padding(
+//                   padding: EdgeInsets.all(16),
+//                   child: Text(
+//                     t(AppTranslation.welcomeTo),
+//                     style: TextStyle(
+//                       fontFamily: 'Lato',
+//                       fontSize: AppSize.width * 0.06,
+//                       height: 1.0,
+//                       letterSpacing: 0,
+//                       fontWeight: FontWeight.w500,
+//                       color: AppColors.primary,
+//                     ),
+//                   ),
+//                 ),
+//                 Padding(
+//                   padding: const EdgeInsets.symmetric(horizontal: 22.0),
+//                   child: Text(
+//                     t(AppTranslation.khosomati),
+//                     style: TextStyle(
+//                       fontFamily: 'Lato',
+//                       //fontSize: 22.39 ,
+//                       fontSize: AppSize.width * 0.1,
+//                       fontWeight: FontWeight.w700,
+//                       height: 1.0,
+//                       letterSpacing: 0,
+//                       color: AppColors.primary,
+//                     ),
+//                   ),
+//                 ),
+//                 SizedBox(height: AppSize.height * 0.07),
+//                 Lottie.asset("assets/lotties/Login (1).json"),
+
+//                 // SizedBox(height: 100),
+//                 CustomPhoneTextField(controller: phoneEditingController),
+
+//                 Center(
+//                   child: Padding(
+//                     padding: const EdgeInsets.only(left: 20, right: 20),
+//                     child: SizedBox(
+//                       height: 55,
+//                       width: AppSize.width,
+//                       child: ElevatedButton(
+//                         onPressed: () async {
+//                           if (_formKay.currentState!.validate()) {
+//                             await context.read<AuthCubit>().sendCode(
+//                               phone: phoneEditingController.text.trim(),
+//                             );
+//                           } else {
+//                             _showEmptyPhoneDialog(context);
+//                           }
+//                         },
+//                         style: ElevatedButton.styleFrom(
+//                           foregroundColor: Colors.white,
+//                           backgroundColor: AppColors.primary,
+//                           textStyle: TextStyle(
+//                             fontSize: 20,
+//                             fontWeight: FontWeight.bold,
+//                           ),
+//                           padding: EdgeInsets.symmetric(
+//                             vertical: 16,
+//                             horizontal: 24,
+//                           ),
+//                           shape: RoundedRectangleBorder(
+//                             borderRadius: BorderRadius.circular(20),
+//                           ),
+//                         ),
+//                         child: BlocConsumer<AuthCubit, AuthState>(
+//                           builder: (context, state) {
+//                             if (state is AuthLoading) {
+//                               return SizedBox(
+//                                 height: 24,
+//                                 width: 24,
+//                                 child: CircularProgressIndicator(
+//                                   color: Colors.white,
+//                                   strokeWidth: 2,
+//                                 ),
+//                               );
+//                             } else {
+//                               return Text(t(AppTranslation.login));
+//                             }
+//                           },
+//                           listener: (context, state) async {
+//                             if (state is AuthLogedIn) {
+//                               Navigator.pushReplacementNamed(
+//                                 context,
+//                                 RouteString.layout,
+//                               );
+//                             }
+//                             if (state is CodeSentState) {
+//                               Navigator.pushReplacementNamed(
+//                                 context,
+//                                 RouteString.otp,
+//                                 arguments: state.verificationId,
+//                               );
+//                             } else if (state is AuthError) {
+//                               ScaffoldMessenger.of(context).showSnackBar(
+//                                 SnackBar(
+//                                   content: Text(state.message),
+//                                   backgroundColor: Colors.red,
+//                                   behavior: SnackBarBehavior.floating,
+//                                 ),
+//                               );
+//                             }
+//                           },
+//                         ),
+//                       ),
+//                     ),
+//                   ),
+//                 ),
+//               ],
+//             ),
+//           ),
+//         ),
+//       ),
+//     );
+//   }
+
+//   void _showEmptyPhoneDialog(BuildContext context) {
+//     AwesomeDialog(
+//       context: context,
+//       dialogType: DialogType.warning, // استخدم warning بدلاً من noHeader
+//       animType: AnimType.scale,
+//       headerAnimationLoop: false,
+//       title: "حقل الهاتف فارغ",
+//       desc: "الرجاء إدخال رقم الهاتف للمتابعة.",
+//       btnOkText: "حسناً",
+//       btnOkColor: AppColors.primary,
+//       btnOkOnPress: () {},
+//     ).show();
+//   }
+// }

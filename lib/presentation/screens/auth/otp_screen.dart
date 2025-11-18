@@ -1,3 +1,4 @@
+import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:khsomati/business_logic/cubit/auth/auth_cubit.dart';
@@ -93,15 +94,41 @@ class _OtpScreenState extends State<OtpScreen> {
                     height: 55,
                     child: ElevatedButton(
                       onPressed: () async {
-                        if (keyOtp.currentState!.validate()) {
-                          await context.read<AuthCubit>().verifyCode(
-                            verificationId: widget.verificationId,
-                            smsCode: pinController.text,
+                        // onPressed:
+                        // () async {
+                        if (pinController.text.isEmpty) {
+                          _showAuthErrorDialog(
+                            context,
+                            "الرجاء إدخال رمز التحقق",
                           );
-                        } else {
-                          // return
-                          print("error");
+                          return;
                         }
+
+                        if (keyOtp.currentState!.validate()) {
+                          try {
+                            await context.read<AuthCubit>().verifyCode(
+                              verificationId: widget.verificationId,
+                              smsCode: pinController.text,
+                            );
+                          } catch (e) {
+                            _showAuthErrorDialog(
+                              context,
+                              "رمز التحقق غير صحيح",
+                            );
+                          }
+                        } else {
+                          _showAuthErrorDialog(context, "رمز التحقق غير صحيح");
+                        }
+                        // };
+                        // if (keyOtp.currentState!.validate()) {
+                        //   await context.read<AuthCubit>().verifyCode(
+                        //     verificationId: widget.verificationId,
+                        //     smsCode: pinController.text,
+                        //   );
+                        // } else {
+                        //   // return
+                        //   print("error");
+                        // }
                       },
                       style: ElevatedButton.styleFrom(
                         shape: RoundedRectangleBorder(
@@ -129,9 +156,9 @@ class _OtpScreenState extends State<OtpScreen> {
                         listener:
                             (BuildContext context, AuthState state) async {
                               if (state is AuthLogedIn) {
-                                final SharedPreferences prefs =
+                                final SharedPreferences prfes =
                                     await SharedPreferences.getInstance();
-                                await prefs.setBool('isLoggedIn', true);
+                                await prfes.setBool('isLoggedIn', true);
                                 Navigator.pushReplacementNamed(
                                   context,
                                   RouteString.layout,
@@ -153,5 +180,19 @@ class _OtpScreenState extends State<OtpScreen> {
         ),
       ),
     );
+  }
+
+  void _showAuthErrorDialog(BuildContext context, String message) {
+    AwesomeDialog(
+      context: context,
+      dialogType: DialogType.error,
+      animType: AnimType.bottomSlide,
+      headerAnimationLoop: false,
+      title: "خطأ في رمز التحقق يرجى التأكد بشكل صحيح",
+      desc: message,
+      btnOkText: "حسناً",
+      btnOkColor: Colors.red,
+      btnOkOnPress: () {},
+    ).show();
   }
 }
