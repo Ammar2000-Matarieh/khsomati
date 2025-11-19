@@ -137,7 +137,13 @@ class Khosomati extends StatelessWidget {
       builder: (BuildContext context, LocalizationState state) {
         return MaterialApp(
           navigatorKey: navigatorKey, // navigate screen :
-          theme: ThemeData(scaffoldBackgroundColor: AppColors.white),
+          theme: ThemeData(
+            scaffoldBackgroundColor: AppColors.white,
+            bottomNavigationBarTheme: BottomNavigationBarThemeData(
+              backgroundColor: AppColors.white,
+            ),
+            appBarTheme: AppBarTheme(backgroundColor: AppColors.white),
+          ),
           locale: state.locale,
           supportedLocales: const [Locale('en'), Locale('ar')],
           localizationsDelegates: const [

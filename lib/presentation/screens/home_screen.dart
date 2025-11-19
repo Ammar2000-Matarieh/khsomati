@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:khsomati/business_logic/cubit/product/product_cubit.dart';
 import 'package:khsomati/business_logic/cubit/store/store_cubit.dart';
 import 'package:khsomati/business_logic/cubit/store/store_state.dart';
+import 'package:khsomati/constants/app_colors.dart';
 import 'package:khsomati/constants/app_size.dart';
 import 'package:khsomati/data/models/on_boarding_model.dart';
 import 'package:khsomati/data/models/store_model.dart';
@@ -244,7 +245,7 @@ class CustomStoresInYourArea extends StatelessWidget {
         width: 130,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(50),
-          color: Colors.blue,
+          color: AppColors.thirdWhite,
           image: DecorationImage(
             image: NetworkImage(imageUrl),
             fit: BoxFit.cover,
