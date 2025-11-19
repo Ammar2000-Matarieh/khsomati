@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:khsomati/business_logic/cubit/product/product_cubit.dart';
+import 'package:khsomati/constants/app_colors.dart';
 import 'package:khsomati/constants/app_size.dart';
-import 'package:khsomati/presentation/widget/text_feild.dart';
+import 'package:khsomati/data/models/product_model.dart';
 
 class ViewProduct extends StatefulWidget {
   const ViewProduct({super.key});
@@ -10,52 +13,60 @@ class ViewProduct extends StatefulWidget {
 }
 
 class _ViewProductState extends State<ViewProduct> {
-  final TextEditingController searchControler = TextEditingController();
-
-  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        body: Padding(
-          padding: EdgeInsets.all(22),
-          child: Form(
-            key: _formKey,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                CustomTextFormField(
-                  controller: searchControler,
-                  keyboardType: TextInputType.text,
-                  hintText: "Search",
-                  prefixIcon: Icon(Icons.search),
-                ),
+    final List<ProductModel> products = context.read<ProductCubit>().products;
 
-                SizedBox(height: AppSize.height * 0.06),
-
-                Expanded(
-                  child: ListView.separated(
-                    separatorBuilder: (context, index) {
-                      return SizedBox(height: 10);
-                    },
-                    itemCount: 20,
-                    itemBuilder: (context, index) {
-                      return CustomItem();
-                    },
-                  ),
-                ),
-              ],
-            ),
-          ),
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text("Products", style: TextStyle(color: Colors.white)),
+        leading: IconButton(
+          onPressed: () => Navigator.pop(context),
+          icon: const Icon(Icons.arrow_back, color: Colors.white),
         ),
+        backgroundColor: AppColors.primary,
+      ),
+
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: products.isEmpty
+            ? const Center(
+                child: Text(
+                  "No products available",
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                ),
+              )
+            : ListView.separated(
+                itemCount: products.length,
+                separatorBuilder: (context, index) =>
+                    const SizedBox(height: 16),
+                itemBuilder: (context, index) {
+                  return CustomItem(
+                    name: products[index].name!,
+                    desc: products[index].description!,
+                    imageUrl: products[index].imageUrl!,
+                    price: products[index].price!,
+                  );
+                },
+              ),
       ),
     );
   }
 }
 
 class CustomItem extends StatefulWidget {
-  const CustomItem({super.key});
+  const CustomItem({
+    super.key,
+    required this.name,
+    required this.desc,
+    required this.imageUrl,
+    required this.price,
+  });
+
+  final String name;
+  final String desc;
+  final String imageUrl;
+  final String price;
 
   @override
   State<CustomItem> createState() => _CustomItemState();
@@ -63,108 +74,108 @@ class CustomItem extends StatefulWidget {
 
 class _CustomItemState extends State<CustomItem> {
   bool isFavorite = false;
+
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () {
-        //
-      },
-      child: Container(
-        width: AppSize.width * 0.9,
-        height: AppSize.height * 0.2,
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(22),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.grey.withOpacity(0.4),
-              spreadRadius: 2,
-              blurRadius: 8,
-              offset: Offset(0, 4),
-            ),
-          ],
-        ),
-        child: Padding(
-          padding: const EdgeInsets.all(12.0),
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Container(
-                height: 150,
-                width: 150,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(20),
-                  image: DecorationImage(
-                    image: AssetImage("assets/logos/logo_app.PNG"),
-                    fit: BoxFit.cover,
-                  ),
-                ),
-              ),
-              SizedBox(width: 16),
-              Expanded(
-                child: Stack(
-                  children: [
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          "ammmar",
-                          style: TextStyle(
-                            fontSize: 22,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        SizedBox(height: 4),
-                        Text(
-                          "aaaaaaaaaaaaaaa",
-                          style: TextStyle(
-                            fontSize: 16,
-                            color: Colors.grey[700],
-                          ),
-                        ),
-                        SizedBox(height: 4),
-                        Text(
-                          "%50",
-                          style: TextStyle(fontSize: 16, color: Colors.green),
-                        ),
-                      ],
-                    ),
-                    Positioned(
-                      bottom: 5,
-                      right: 0,
-                      child: IconButton(
-                        onPressed: () {},
-                        icon: Icon(Icons.location_on, color: Colors.red),
-                      ),
-                    ),
-                    Positioned(
-                      bottom: 50,
-                      right: 0,
-                      child: Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(200),
-                          color: Colors.grey[200],
-                        ),
-                        child: IconButton(
-                          onPressed: () {
-                            setState(() {
-                              isFavorite = !isFavorite; // قلب الحالة عند الضغط
-                            });
-                          },
-                          icon: Icon(
-                            Icons.favorite,
-                            color: isFavorite ? Colors.red : Colors.white,
-                            size: 30,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ],
+    return Container(
+      height: AppSize.height * 0.22,
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(20),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.grey.withOpacity(0.3),
+            spreadRadius: 2,
+            blurRadius: 10,
+            offset: const Offset(0, 4),
           ),
-        ),
+        ],
+      ),
+
+      child: Row(
+        children: [
+          /// Product Image
+          ClipRRect(
+            borderRadius: const BorderRadius.only(
+              topLeft: Radius.circular(20),
+              bottomLeft: Radius.circular(20),
+            ),
+            child: Image.network(
+              widget.imageUrl,
+              height: double.infinity,
+              width: 150,
+              fit: BoxFit.cover,
+            ),
+          ),
+
+          const SizedBox(width: 14),
+
+          /// Product Details
+          Expanded(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 12),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  /// Name
+                  Text(
+                    widget.name,
+                    style: const TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                    ),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+
+                  const SizedBox(height: 6),
+
+                  /// Description
+                  Text(
+                    widget.desc,
+                    style: TextStyle(fontSize: 15, color: Colors.grey[700]),
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+
+                  const Spacer(),
+
+                  /// Price + Favorite Button
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        "\$${widget.price}",
+                        style: const TextStyle(
+                          fontSize: 18,
+                          color: Colors.green,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+
+                      GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            isFavorite = !isFavorite;
+                          });
+                        },
+                        child: CircleAvatar(
+                          backgroundColor: Colors.grey[200],
+                          radius: 22,
+                          child: Icon(
+                            Icons.favorite,
+                            color: isFavorite ? Colors.red : Colors.grey[400],
+                            size: 26,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }

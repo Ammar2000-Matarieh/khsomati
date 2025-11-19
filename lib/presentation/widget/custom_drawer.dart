@@ -109,7 +109,6 @@ class CustomComponentsDrawer extends StatelessWidget {
                 leading: CupertinoIcons.add_circled,
                 onTap: () async {
                   final auth = context.read<AuthCubit>();
-                  await auth.getStoredUser();
                   final userId = auth.userModel!.id;
                   await context.read<StoreCubit>().getMyStores(userId: userId!);
                   Navigator.pushNamed(context, RouteString.addProductsRoute);

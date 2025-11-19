@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:khsomati/presentation/screens/about_the_app.dart';
-import 'package:khsomati/presentation/screens/add_products_screen.dart';
+import 'package:khsomati/presentation/screens/add_product_screen/add_products_screen.dart';
 import 'package:khsomati/presentation/screens/auth/login_screen.dart';
 import 'package:khsomati/presentation/screens/auth/otp_screen.dart';
 import 'package:khsomati/presentation/screens/home_screen.dart';

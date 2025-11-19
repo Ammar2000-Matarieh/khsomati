@@ -1,7 +1,12 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:khsomati/business_logic/cubit/product/product_cubit.dart';
+import 'package:khsomati/business_logic/cubit/store/store_cubit.dart';
+import 'package:khsomati/business_logic/cubit/store/store_state.dart';
 import 'package:khsomati/constants/app_size.dart';
 import 'package:khsomati/data/models/on_boarding_model.dart';
+import 'package:khsomati/data/models/store_model.dart';
 import 'package:khsomati/presentation/widget/text_feild.dart';
 import 'package:khsomati/router/route_string.dart';
 
@@ -21,6 +26,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final List<StoreModel> stores = context.read<StoreCubit>().allStores;
     return SafeArea(
       child: Scaffold(
         backgroundColor: Colors.white,
@@ -59,26 +65,30 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
 
                   SizedBox(height: AppSize.height * 0.05),
-                  CarouselSlider.builder(
-                    carouselController: buttonCarouselController,
-                    itemCount: onBoardingData.length,
-                    itemBuilder: (context, index, realIndex) {
-                      return ClipRRect(
-                        borderRadius: BorderRadius.circular(12),
-                        child: Image.asset(
-                          onBoardingData[index].image,
-                          fit: BoxFit.cover,
-                          width: AppSize.width * 0.9,
+                  BlocBuilder<StoreCubit, StoreState>(
+                    builder: (context, state) {
+                      return CarouselSlider.builder(
+                        carouselController: buttonCarouselController,
+                        itemCount: stores.length,
+                        itemBuilder: (context, index, realIndex) {
+                          return ClipRRect(
+                            borderRadius: BorderRadius.circular(12),
+                            child: Image.network(
+                              stores[index].mainImageUrl!,
+                              fit: BoxFit.cover,
+                              width: AppSize.width * 0.9,
+                            ),
+                          );
+                        },
+                        options: CarouselOptions(
+                          height: 300,
+                          autoPlay: true,
+                          enlargeCenterPage: true,
+                          viewportFraction: 0.9,
+                          onPageChanged: (index, reason) {},
                         ),
                       );
                     },
-                    options: CarouselOptions(
-                      height: 300,
-                      autoPlay: true,
-                      enlargeCenterPage: true,
-                      viewportFraction: 0.9,
-                      onPageChanged: (index, reason) {},
-                    ),
                   ),
                   SizedBox(height: AppSize.height * 0.04),
                   Row(
@@ -103,14 +113,21 @@ class _HomeScreenState extends State<HomeScreen> {
 
                   SizedBox(
                     height: 130,
-                    child: ListView.separated(
-                      scrollDirection: Axis.horizontal,
-                      itemCount: 5,
-                      separatorBuilder: (context, index) {
-                        return SizedBox(width: AppSize.width * 0.09);
-                      },
-                      itemBuilder: (context, index) {
-                        return CustomStoresInYourArea();
+                    child: BlocBuilder<StoreCubit, StoreState>(
+                      builder: (context, state) {
+                        return ListView.separated(
+                          scrollDirection: Axis.horizontal,
+                          itemCount: stores.length,
+                          separatorBuilder: (context, index) {
+                            return SizedBox(width: AppSize.width * 0.09);
+                          },
+                          itemBuilder: (context, index) {
+                            return CustomStoresInYourArea(
+                              imageUrl: stores[index].mainImageUrl!,
+                              id: stores[index].id!,
+                            );
+                          },
+                        );
                       },
                     ),
                   ),
@@ -139,15 +156,22 @@ class _HomeScreenState extends State<HomeScreen> {
 
                   SizedBox(
                     height: 130,
-                    child: ListView.separated(
-                      scrollDirection: Axis.horizontal,
-                      separatorBuilder: (context, index) {
-                        return SizedBox(width: AppSize.width * 0.09);
+                    child: BlocBuilder<StoreCubit, StoreState>(
+                      builder: (context, state) {
+                        return ListView.separated(
+                          scrollDirection: Axis.horizontal,
+                          separatorBuilder: (context, index) {
+                            return SizedBox(width: AppSize.width * 0.09);
+                          },
+                          itemBuilder: (context, index) {
+                            return CustomStoresInYourArea(
+                              imageUrl: stores[index].mainImageUrl!,
+                              id: stores[index].id!,
+                            );
+                          },
+                          itemCount: stores.length,
+                        );
                       },
-                      itemBuilder: (context, index) {
-                        return CustomStoresInYourArea();
-                      },
-                      itemCount: 10,
                     ),
                   ),
                 ],
@@ -201,12 +225,20 @@ class _HomeScreenState extends State<HomeScreen> {
 
 //StoresInYourArea
 class CustomStoresInYourArea extends StatelessWidget {
-  const CustomStoresInYourArea({super.key});
-
+  const CustomStoresInYourArea({
+    super.key,
+    required this.imageUrl,
+    required this.id,
+  });
+  final String imageUrl;
+  final String id;
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {},
+      onTap: () async {
+        await context.read<ProductCubit>().getProduct(id: id);
+        Navigator.pushNamed(context, RouteString.viewProduct);
+      },
       child: Container(
         height: 130,
         width: 130,
@@ -214,7 +246,7 @@ class CustomStoresInYourArea extends StatelessWidget {
           borderRadius: BorderRadius.circular(50),
           color: Colors.blue,
           image: DecorationImage(
-            image: AssetImage("assets/images/onBoarding_three.png"),
+            image: NetworkImage(imageUrl),
             fit: BoxFit.cover,
           ),
         ),

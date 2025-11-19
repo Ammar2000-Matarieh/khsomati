@@ -6,6 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:khsomati/business_logic/cubit/auth/auth_cubit.dart';
 import 'package:khsomati/business_logic/cubit/store/store_cubit.dart';
+import 'package:khsomati/business_logic/cubit/store/store_state.dart';
 import 'package:khsomati/constants/app_colors.dart';
 import 'package:khsomati/data/models/user_model.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -455,11 +456,20 @@ class _CreateStoreScreenState extends State<CreateStoreScreen> {
             mainImage: mainImage!,
             extraImages: extraImages,
           );
-          print(storedUser.id);
+
+          Navigator.pop(context);
         },
-        child: Text(
-          "Create Store",
-          style: TextStyle(fontSize: 18, color: Colors.white),
+        child: BlocBuilder<StoreCubit, StoreState>(
+          builder: (BuildContext context, StoreState state) {
+            if (state is Loading) {
+              return CircularProgressIndicator(color: AppColors.white);
+            } else {
+              return Text(
+                "Create Store",
+                style: TextStyle(fontSize: 18, color: Colors.white),
+              );
+            }
+          },
         ),
       ),
     );

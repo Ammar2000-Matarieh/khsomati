@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:khsomati/business_logic/cubit/auth/auth_cubit.dart';
 import 'package:khsomati/business_logic/cubit/localization/localization_cubit.dart';
+import 'package:khsomati/business_logic/cubit/store/store_cubit.dart';
 import 'package:khsomati/constants/app_colors.dart';
 import 'package:khsomati/constants/app_constant.dart';
 import 'package:khsomati/constants/translation/app_translation.dart';
@@ -64,7 +66,9 @@ class _SplashScreenState extends State<SplashScreen>
       final bool isLoggedIn = prfes.getBool('isLoggedIn') ?? false;
 
       String nextRoute;
+      await context.read<StoreCubit>().getAllStores();
       if (isLoggedIn) {
+        await context.read<AuthCubit>().loadUserFromLocal();
         nextRoute = RouteString.layout;
       } else {
         nextRoute = RouteString.onBoarding;
