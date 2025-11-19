@@ -21,15 +21,24 @@
 
 ## 🖼️ صور التطبيق — Screenshots
 
-> قم برفع الصور داخل مجلد:  
 > **`assets/screenshots/`**
 
-| Home | Offer Details | Stores | Favorites |
-|------|---------------|---------|-----------|
-| ![](assets/screenshots/Screenshot_1763585542.png) | ![](assets/screenshots/Screenshot_1763585605.png) | ![](assets/screenshots/Screenshot_1763585611.png) | ![](assets/screenshots/Screenshot_1763585680.png) | ![](assets/screenshots/Screenshot_1763585720.png) | ![](assets/screenshots/Screenshot_1763585775.png) | ![](assets/screenshots/Screenshot_1763585779.png) | ![](assets/screenshots/Screenshot_1763585786.png) | ![](assets/screenshots/Screenshot_1763585795.png) | ![](assets/screenshots/Screenshot_1763585814.png) | ![](assets/screenshots/Screenshot_1763585833.png)
+### OnBoarding & Login Screens
+![](assets/screenshots/Screenshot_1763585542.png)
+![](assets/screenshots/Screenshot_1763585605.png)
+![](assets/screenshots/Screenshot_1763585611.png)
 
+### OTP & Other Screens
+![](assets/screenshots/Screenshot_1763585680.png)
+![](assets/screenshots/Screenshot_1763585720.png)
+![](assets/screenshots/Screenshot_1763585775.png)
 
----
+### Additional Screens
+![](assets/screenshots/Screenshot_1763585779.png)
+![](assets/screenshots/Screenshot_1763585786.png)
+![](assets/screenshots/Screenshot_1763585795.png)
+![](assets/screenshots/Screenshot_1763585814.png)
+![](assets/screenshots/Screenshot_1763585833.png)
 
 ## 🛠️ التقنيات المستخدمة — Tech Stack
 
